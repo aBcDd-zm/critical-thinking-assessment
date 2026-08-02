@@ -14,6 +14,7 @@ import {
 import AnswerComposer from "../components/assessment/AnswerComposer.vue";
 import DialogueTurn from "../components/assessment/DialogueTurn.vue";
 import { useSpeechPlayback } from "../composables/useSpeechPlayback";
+import interviewMarkUrl from "../assets/brand/interview-mark.png";
 import type { DialogueTurnItem, SessionResponse } from "../types/session";
 
 type SpeechInputState =
@@ -1172,7 +1173,12 @@ onBeforeUnmount(() => {
       <template v-else>
       <header class="interview-topbar">
         <div class="interview-brand">
-          <span class="interview-logo">罗</span>
+          <img
+            class="interview-logo"
+            :src="interviewMarkUrl"
+            alt=""
+            aria-hidden="true"
+          />
           <h1>审辩式思维动态测评</h1>
         </div>
         <div class="interview-toolbar">

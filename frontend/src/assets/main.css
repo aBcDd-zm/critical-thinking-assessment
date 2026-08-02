@@ -4942,17 +4942,11 @@ h3 {
 }
 
 .interview-logo {
-  display: grid;
+  display: block;
   width: 34px;
   height: 34px;
-  place-items: center;
   flex: 0 0 auto;
-  background: #ffffff;
-  border: 2.5px solid #171717;
-  border-radius: 9px;
-  font-size: 18px;
-  font-weight: 900;
-  line-height: 1;
+  object-fit: contain;
 }
 
 .interview-brand h1 {
@@ -6207,7 +6201,6 @@ body.is-resizing-assessment-panels {
   .interview-logo {
     width: 40px;
     height: 40px;
-    font-size: 18px;
   }
 
   .interview-toolbar {
@@ -6365,9 +6358,6 @@ body.is-resizing-assessment-panels {
   .interview-logo {
     width: 30px;
     height: 30px;
-    border-width: 2px;
-    border-radius: 8px;
-    font-size: 15px;
   }
 
   .interview-brand h1 {

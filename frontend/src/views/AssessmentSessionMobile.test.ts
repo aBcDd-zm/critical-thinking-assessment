@@ -38,7 +38,9 @@ describe("AssessmentSessionView mobile layout contract", () => {
 
   it("keeps one voice toggle and the Rogers identity", () => {
     expect(sessionView.match(/class="interview-read-button"/g)).toHaveLength(1);
-    expect(sessionView).toContain('<span class="interview-logo">罗</span>');
+    expect(sessionView).toContain('class="interview-logo"');
+    expect(sessionView).toContain(':src="interviewMarkUrl"');
+    expect(sessionView).not.toContain('<span class="interview-logo">罗</span>');
     expect(sessionView).toContain("罗杰斯教授");
     expect(sessionView).not.toContain("AI 访谈员");
     expect(sessionView).not.toContain("语音转文字已准备好");
