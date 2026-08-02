@@ -1,0 +1,147 @@
+[
+  {
+    "case_id": "student_weak_s1",
+    "user_id": "student_weak",
+    "scenario_code": "product_launch_48h",
+    "stage_code": "s1_problem_definition",
+    "history": [
+      {
+        "speaker": "ai",
+        "content": "如果你是项目负责人，你认为当前最核心的决策问题是什么？你会怎样界定这个问题？",
+        "content_type": "stage_question"
+      },
+      {
+        "speaker": "user",
+        "content": "我觉得还是按时上线吧，不然宣传都安排好了。",
+        "content_type": "scenario_answer"
+      }
+    ],
+    "latest_user_answer": "我觉得还是按时上线吧，不然宣传都安排好了。",
+    "score_gap_summary": {
+      "missing_dimensions": ["problem_definition", "evidence_evaluation"],
+      "argument_issues": ["把问题简化为按时上线，没有说明质量风险和决策边界"],
+      "low_score_dimensions": []
+    },
+    "expected_followup": {
+      "allowed_next_actions": ["ask_followup"],
+      "preferred_rule_codes": ["clarify_core_problem", "trap_binary_decision"],
+      "should_request": ["核心问题", "风险边界", "证据依据"]
+    }
+  },
+  {
+    "case_id": "student_medium_s2",
+    "user_id": "student_medium",
+    "scenario_code": "product_launch_48h",
+    "stage_code": "s2_evidence_verification",
+    "history": [
+      {
+        "speaker": "ai",
+        "content": "面对这些信息，你会优先核实哪些证据？你会如何判断这些证据是否足够可靠？",
+        "content_type": "stage_question"
+      },
+      {
+        "speaker": "user",
+        "content": "我会先看同步失败的数量和用户反馈，如果失败比较多就延期，如果不多就上线。",
+        "content_type": "scenario_answer"
+      }
+    ],
+    "latest_user_answer": "我会先看同步失败的数量和用户反馈，如果失败比较多就延期，如果不多就上线。",
+    "score_gap_summary": {
+      "missing_dimensions": ["evidence_evaluation"],
+      "argument_issues": ["提到了数据，但没有说明样本范围、来源偏差和交叉验证方式"],
+      "low_score_dimensions": []
+    },
+    "expected_followup": {
+      "allowed_next_actions": ["ask_followup"],
+      "preferred_rule_codes": ["clarify_evidence_source", "challenge_single_metric"],
+      "should_request": ["证据来源", "样本代表性", "交叉验证"]
+    }
+  },
+  {
+    "case_id": "workplace_strong_s6",
+    "user_id": "workplace_strong",
+    "scenario_code": "product_launch_48h",
+    "stage_code": "s6_integrated_plan",
+    "history": [
+      {
+        "speaker": "ai",
+        "content": "综合目前信息，你会给出怎样的决策方案？请说明取舍依据和执行安排。",
+        "content_type": "stage_question"
+      },
+      {
+        "speaker": "user",
+        "content": "我会采用分阶段灰度上线。先限制入口和用户范围，保留回滚开关；研发在 24 小时内验证弱网和低端设备问题，运营准备 FAQ 和人工响应，市场改成小范围发布。判断依据是同步失败集中在核心链路，直接全量上线风险太高，但完全延期也会损失窗口。",
+        "content_type": "scenario_answer"
+      }
+    ],
+    "latest_user_answer": "我会采用分阶段灰度上线。先限制入口和用户范围，保留回滚开关；研发在 24 小时内验证弱网和低端设备问题，运营准备 FAQ 和人工响应，市场改成小范围发布。判断依据是同步失败集中在核心链路，直接全量上线风险太高，但完全延期也会损失窗口。",
+    "score_gap_summary": {
+      "missing_dimensions": [],
+      "argument_issues": [],
+      "low_score_dimensions": []
+    },
+    "expected_followup": {
+      "allowed_next_actions": ["advance_stage", "finish_ready", "ask_followup"],
+      "preferred_rule_codes": ["advance_final_summary"],
+      "should_request": ["执行风险", "回滚条件"]
+    }
+  },
+  {
+    "case_id": "edge_short_s1",
+    "user_id": "edge_empty_or_short",
+    "scenario_code": "product_launch_48h",
+    "stage_code": "s1_problem_definition",
+    "history": [
+      {
+        "speaker": "ai",
+        "content": "如果你是项目负责人，你认为当前最核心的决策问题是什么？你会怎样界定这个问题？",
+        "content_type": "stage_question"
+      },
+      {
+        "speaker": "user",
+        "content": "不知道。",
+        "content_type": "scenario_answer"
+      }
+    ],
+    "latest_user_answer": "不知道。",
+    "score_gap_summary": {
+      "missing_dimensions": ["problem_definition", "evidence_evaluation", "reasoning_argumentation"],
+      "argument_issues": ["没有提供可评分内容"],
+      "low_score_dimensions": ["problem_definition"]
+    },
+    "expected_followup": {
+      "allowed_next_actions": ["ask_followup"],
+      "preferred_rule_codes": ["clarify_core_problem"],
+      "should_request": ["用自己的话描述问题"]
+    }
+  },
+  {
+    "case_id": "dynamic_update_s5",
+    "user_id": "dynamic_update_case",
+    "scenario_code": "product_launch_48h",
+    "stage_code": "s5_dynamic_adjustment",
+    "history": [
+      {
+        "speaker": "ai",
+        "content": "如果现在出现新的风险信息，你会如何调整原来的判断？",
+        "content_type": "stage_question"
+      },
+      {
+        "speaker": "user",
+        "content": "我原本倾向于按时上线，但如果新增信息显示核心链路错误率升高，我会先缩小上线范围，要求研发给出可验证的修复结论，再决定是否扩大发布。",
+        "content_type": "scenario_answer"
+      }
+    ],
+    "latest_user_answer": "我原本倾向于按时上线，但如果新增信息显示核心链路错误率升高，我会先缩小上线范围，要求研发给出可验证的修复结论，再决定是否扩大发布。",
+    "score_gap_summary": {
+      "missing_dimensions": [],
+      "argument_issues": ["可以继续追问调整阈值和触发条件"],
+      "low_score_dimensions": []
+    },
+    "expected_followup": {
+      "allowed_next_actions": ["ask_followup", "advance_stage"],
+      "preferred_rule_codes": ["release_dynamic_risk_signal", "explain_adjustment_boundary"],
+      "should_request": ["调整阈值", "触发条件", "后续验证"]
+    }
+  }
+]

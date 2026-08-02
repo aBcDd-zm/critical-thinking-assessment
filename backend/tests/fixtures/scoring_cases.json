@@ -1,0 +1,65 @@
+[
+  {
+    "case_id": "student_weak_scoring",
+    "user_id": "student_weak",
+    "dialogue_case_ids": ["student_weak_s1", "edge_short_s1"],
+    "expected_dimension_ranges": [
+      {
+        "dimension_key": "problem_definition",
+        "min_score": 1,
+        "max_score": 2,
+        "reason": "回答只表达按时上线倾向，没有界定核心问题和边界"
+      },
+      {
+        "dimension_key": "evidence_evaluation",
+        "min_score": 1,
+        "max_score": 2,
+        "reason": "缺少证据来源、样本范围和可靠性判断"
+      }
+    ],
+    "expected_report_points": ["证据不足", "暂不评分", "继续观察"],
+    "must_have_disclaimer": true
+  },
+  {
+    "case_id": "student_medium_scoring",
+    "user_id": "student_medium",
+    "dialogue_case_ids": ["student_medium_s2", "dynamic_update_s5"],
+    "expected_dimension_ranges": [
+      {
+        "dimension_key": "evidence_evaluation",
+        "min_score": 2,
+        "max_score": 3,
+        "reason": "能提出看数据，但对样本偏差和交叉验证说明不足"
+      },
+      {
+        "dimension_key": "dynamic_adjustment",
+        "min_score": 3,
+        "max_score": 4,
+        "reason": "能根据新增风险缩小上线范围，但触发阈值还不够明确"
+      }
+    ],
+    "expected_report_points": ["覆盖范围", "可靠性", "可追溯"],
+    "must_have_disclaimer": true
+  },
+  {
+    "case_id": "workplace_strong_scoring",
+    "user_id": "workplace_strong",
+    "dialogue_case_ids": ["workplace_strong_s6"],
+    "expected_dimension_ranges": [
+      {
+        "dimension_key": "integrative_decision",
+        "min_score": 4,
+        "max_score": 5,
+        "reason": "能够整合上线窗口、技术风险、运营准备和回滚机制"
+      },
+      {
+        "dimension_key": "multiple_perspectives",
+        "min_score": 4,
+        "max_score": 5,
+        "reason": "同时考虑研发、运营、市场和用户影响"
+      }
+    ],
+    "expected_report_points": ["分阶段的执行安排", "不同视角", "回退或条件调整安排"],
+    "must_have_disclaimer": true
+  }
+]

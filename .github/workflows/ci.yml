@@ -1,0 +1,83 @@
+name: Baseline CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - "system/**"
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: "123456"
+          MYSQL_DATABASE: psychological_assessment
+        ports:
+          - 3307:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -p123456"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      DATABASE_URL: mysql+pymysql://root:123456@127.0.0.1:3307/psychological_assessment?charset=utf8mb4
+      MODEL_GATEWAY_MODE: mock
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD: admin123456
+      ADMIN_TOKEN_SECRET: ci-admin-token-secret
+      EXPORT_PSEUDONYM_SECRET: ci-export-pseudonym-secret
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -r requirements.txt
+      - run: python -m alembic upgrade head
+      - run: python -m alembic downgrade 20260717_0006
+      - run: python -m alembic upgrade head
+      - run: python scripts/seed_db.py
+      - run: python scripts/check_db.py
+      - run: python scripts/check_agent_contract.py
+      - run: python scripts/check_measurement_contract.py
+      - run: python scripts/check_progressive_interview_v3.py
+      - run: python scripts/check_consultative_interview_v32.py
+      - run: python scripts/check_consultative_interview_v33.py
+      - run: python scripts/check_agent_fixture_cases.py
+      - run: INTERVIEW_FLOW_VERSION=legacy_v2 python scripts/check_dialogue_agent.py
+      - run: INTERVIEW_FLOW_VERSION=legacy_v2 python scripts/check_dialogue_flow_regression.py
+      - run: INTERVIEW_FLOW_VERSION=legacy_v2 python scripts/check_scoring_report_agent.py
+      - run: INTERVIEW_FLOW_VERSION=legacy_v2 python scripts/check_report_generation_flow.py
+      - run: INTERVIEW_FLOW_VERSION=legacy_v2 python scripts/check_mock_assessment_flow.py
+      - run: INTERVIEW_FLOW_VERSION=legacy_v2 python scripts/check_admin_session_review.py
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run test
+      - run: npm run build
+
+  hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: git diff --check

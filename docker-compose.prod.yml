@@ -1,0 +1,47 @@
+name: cta-prod
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: cta_mysql_prod
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?请在 .env.production 中设置 MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: psychological_assessment
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+      - --default-time-zone=+08:00
+    volumes:
+      - mysql_prod_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$${MYSQL_ROOT_PASSWORD}\""]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    # 刻意不映射端口：数据库只在 compose 内网可达，不暴露公网。
+
+  backend:
+    build: ./backend
+    container_name: cta_backend_prod
+    restart: unless-stopped
+    env_file: .env.production
+    environment:
+      DATABASE_URL: mysql+pymysql://root:${MYSQL_ROOT_PASSWORD}@mysql:3306/psychological_assessment?charset=utf8mb4
+    depends_on:
+      mysql:
+        condition: service_healthy
+    # 刻意不映射端口：只经前端 Nginx 反代访问。
+
+  frontend:
+    build: ./frontend
+    container_name: cta_frontend_prod
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_prod_data:

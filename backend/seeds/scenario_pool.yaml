@@ -1,0 +1,12 @@
+pool_code: default_management_pool
+name: 默认管理决策情境池
+rotation_strategy: manual
+target_audience: general
+description: 第一版默认情境池，先放入一个完整情境，后续可追加轻量情境验证轮换。
+status: active
+items:
+  - scenario_code: product_launch_48h
+    rotation_weight: 100
+    display_order: 1
+    status: active
+

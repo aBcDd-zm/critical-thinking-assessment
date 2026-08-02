@@ -1,0 +1,271 @@
+version: agent_test_v2_five_level
+dimensions:
+  - dimension_key: problem_definition
+    name: 问题界定
+    definition: 识别管理决策情境中的核心问题、边界条件、关键约束和利益相关方，避免只停留在表面现象或单一诉求。
+    observable_behaviors:
+      - 区分表面压力、真实问题和待决策事项
+      - 说明问题边界、约束条件和受影响对象
+      - 能把模糊情境转化为可讨论的决策问题
+    invalid_evidence_desc: 只复述题目背景、直接给出结论、只表达个人偏好，不能作为高水平问题界定证据。
+    anchors:
+      - score_level: 1
+        level_name: 明显不足
+        behavior_desc: 主要复述情境或直接表态，缺少清晰的问题界定。
+        evidence_examples:
+          - 我觉得就是要不要上线的问题。
+        counter_examples:
+          - 只说赶时间、压力大，但没有说明真正需要解决的决策矛盾。
+      - score_level: 2
+        level_name: 基础
+        behavior_desc: 能指出一个局部问题，但未区分表面现象与核心矛盾，问题边界、约束和受影响对象大多缺失。
+        evidence_examples:
+          - 当前主要问题是上线时间紧，同时产品还有一些质量风险。
+        counter_examples:
+          - 提到多个现象，但没有把它们组织成一个清楚的待决策问题。
+      - score_level: 3
+        level_name: 中等
+        behavior_desc: 能指出主要问题，但对边界、约束或利益相关方说明不完整。
+        evidence_examples:
+          - 核心问题是上线时间和质量风险之间的取舍。
+        counter_examples:
+          - 只提出一个方向，没有解释为什么这是核心问题。
+      - score_level: 4
+        level_name: 较强
+        behavior_desc: 能清楚界定核心问题及主要边界，说明关键约束和相关方影响，但问题层级、优先关系或次要边界仍有遗漏。
+        evidence_examples:
+          - 核心不是简单上不上线，而是要在市场窗口和核心功能风险之间取舍，并同时考虑用户体验与团队承载能力。
+        counter_examples:
+          - 已说明核心矛盾和相关方，但没有明确哪些约束最优先。
+      - score_level: 5
+        level_name: 突出
+        behavior_desc: 能清楚界定核心问题、边界条件、约束和相关方影响，并说明问题之间的层级关系。
+        evidence_examples:
+          - 现在不是简单决定上不上线，而是要判断在48小时窗口内，产品风险是否可控，以及如果延期对市场、用户和团队承诺的影响。
+        counter_examples:
+          - 给出复杂方案但没有先界定问题范围。
+
+  - dimension_key: evidence_evaluation
+    name: 证据评估
+    definition: 判断信息来源、证据质量、相关性、可靠性和局限，区分事实、观点、推测和噪声。
+    observable_behaviors:
+      - 主动询问信息来源、样本范围和数据质量
+      - 区分事实、意见和未经验证的假设
+      - 说明现有证据的不足和需要补充核实的信息
+    invalid_evidence_desc: 只引用单一数据、只凭权威意见或情绪判断，不能作为高水平证据评估。
+    anchors:
+      - score_level: 1
+        level_name: 明显不足
+        behavior_desc: 直接接受已有信息，缺少对来源、可靠性和局限的判断。
+        evidence_examples:
+          - 既然市场说要上线，那就应该上线。
+        counter_examples:
+          - 把部门意见当作事实证据。
+      - score_level: 2
+        level_name: 基础
+        behavior_desc: 意识到需要核实信息或查看数据，但没有明确评价标准、来源质量或可执行的验证方法。
+        evidence_examples:
+          - 我还需要再看看数据，不能只听一个部门的意见。
+        counter_examples:
+          - 只说数据很重要，却没有说明要核实什么、怎么判断可信。
+      - score_level: 3
+        level_name: 中等
+        behavior_desc: 能提出部分证据依据，但对证据质量、样本和偏差分析有限。
+        evidence_examples:
+          - 我会看内测反馈数量和失败率，再看这些反馈是不是集中在核心功能。
+        counter_examples:
+          - 只说要看数据，但没有说明看什么数据、为什么可信。
+      - score_level: 4
+        level_name: 较强
+        behavior_desc: 能从来源、样本、可比性、可靠性或局限中的多个方面评价证据，并采用至少一种交叉核验，但对潜在偏差或不确定性说明仍不完整。
+        evidence_examples:
+          - 我会先核对原始日志和统计口径，再把计划与实际交付记录交叉验证，并排除事后补录的数据。
+        counter_examples:
+          - 已做交叉验证，但没有解释样本是否可比或还存在什么偏差。
+      - score_level: 5
+        level_name: 突出
+        behavior_desc: 能系统评估证据来源、样本、相关性、可靠性和局限，并提出交叉验证方式。
+        evidence_examples:
+          - 我会把内测反馈按严重程度、复现率、用户类型和业务影响分层，再和日志、客服反馈、灰度数据交叉验证。
+        counter_examples:
+          - 列出很多数据名但没有评价数据质量。
+
+  - dimension_key: reasoning_argumentation
+    name: 推理论证
+    definition: 基于证据形成逻辑清晰的推理链，说明前提、假设、推理过程、结论和可能漏洞。
+    observable_behaviors:
+      - 说明判断的前提、依据和推导过程
+      - 能识别推理中的假设、风险和反例
+      - 能把结论和证据之间的关系讲清楚
+    invalid_evidence_desc: 只有结论、口号式理由或经验判断，缺少证据到结论的推理链。
+    anchors:
+      - score_level: 1
+        level_name: 明显不足
+        behavior_desc: 结论跳跃，缺少清楚的推理过程。
+        evidence_examples:
+          - 我觉得延期比较稳，所以延期。
+        counter_examples:
+          - 只有立场，没有说明为什么。
+      - score_level: 2
+        level_name: 基础
+        behavior_desc: 能给出一个理由或简单条件判断，但关键前提、证据与结论之间的关系大多未说明。
+        evidence_examples:
+          - 如果错误比较多就延期，因为上线后修复会更麻烦。
+        counter_examples:
+          - 有理由但没有说明错误达到什么程度才支持延期。
+      - score_level: 3
+        level_name: 中等
+        behavior_desc: 有基本推理，但前提、证据或假设说明不够完整。
+        evidence_examples:
+          - 如果失败集中在非核心功能，可以上线后修；如果是核心链路，就应该延期。
+        counter_examples:
+          - 有条件判断但没有说明条件如何被验证。
+      - score_level: 4
+        level_name: 较强
+        behavior_desc: 推理链较完整，能说明主要前提、条件和风险，并考虑反例或验证方式，但对替代解释或部分隐含假设处理不够充分。
+        evidence_examples:
+          - 如果核心链路错误率低于阈值且支持团队能够值守，可以灰度上线；否则延期，并用复现测试验证这个判断。
+        counter_examples:
+          - 推理和验证条件较清楚，但没有讨论是否存在其他原因造成同样的数据表现。
+      - score_level: 5
+        level_name: 突出
+        behavior_desc: 能构建完整推理链，主动说明关键假设、可能反例和验证方式。
+        evidence_examples:
+          - 我的判断建立在两个前提上：核心链路故障率低于可接受阈值，且支持团队能在上线后及时响应。如果任一前提不成立，就需要调整方案。
+        counter_examples:
+          - 推理很长但证据与结论关系松散。
+
+  - dimension_key: multiple_perspectives
+    name: 多元视角
+    definition: 从不同角色、目标和影响范围理解问题，比较多方利益、风险和价值冲突。
+    observable_behaviors:
+      - 主动识别多个利益相关方
+      - 比较不同角色的诉求、风险和收益
+      - 能看到短期目标与长期影响之间的冲突
+    invalid_evidence_desc: 只从单一部门或个人便利出发，不能作为高水平多元视角证据。
+    anchors:
+      - score_level: 1
+        level_name: 明显不足
+        behavior_desc: 只从单一视角看问题，忽略其他相关方。
+        evidence_examples:
+          - 研发觉得风险大，那就不要上线。
+        counter_examples:
+          - 只考虑一个部门的压力。
+      - score_level: 2
+        level_name: 基础
+        behavior_desc: 能意识到不止一个相关方，但主要停留在列举角色，缺少对诉求、风险和冲突的比较。
+        evidence_examples:
+          - 这件事还要考虑市场、研发和用户。
+        counter_examples:
+          - 提到多方名称，却仍只按某一方的便利做决定。
+      - score_level: 3
+        level_name: 中等
+        behavior_desc: 能提到多个视角，但比较和权衡不充分。
+        evidence_examples:
+          - 市场关心窗口期，研发关心质量，用户关心体验。
+        counter_examples:
+          - 只是列举角色，没有分析冲突和取舍。
+      - score_level: 4
+        level_name: 较强
+        behavior_desc: 能比较多方诉求、利益冲突、短长期影响或风险分担，并提出基本权衡原则，但实际协调或缓解方案仍不完整。
+        evidence_examples:
+          - 市场希望抓住窗口，研发担心稳定性，用户承担体验风险，因此应限制首批范围并公开风险边界。
+        counter_examples:
+          - 已分析冲突和风险分担，但没有说明如何处理最受影响的一方。
+      - score_level: 5
+        level_name: 突出
+        behavior_desc: 能整合多方视角，分析利益冲突、风险分担和价值取舍。
+        evidence_examples:
+          - 市场窗口、用户信任、研发稳定性和客服承载能力都需要纳入判断，不能让某一方单独承担风险。
+        counter_examples:
+          - 看似平衡各方，但没有提出实际取舍。
+
+  - dimension_key: integrative_decision
+    name: 整合决策
+    definition: 综合问题、证据、推理、多方视角和风险控制，形成可执行、可解释的行动方案。
+    observable_behaviors:
+      - 提出明确方案、优先级和执行条件
+      - 说明取舍理由、风险控制和备选方案
+      - 能把判断转化为可落地的行动安排
+    invalid_evidence_desc: 只有态度或原则，没有执行步骤、边界条件和风险控制，不能作为高水平整合决策证据。
+    anchors:
+      - score_level: 1
+        level_name: 明显不足
+        behavior_desc: 决策笼统，缺少取舍依据和执行条件。
+        evidence_examples:
+          - 我觉得先稳一点比较好。
+        counter_examples:
+          - 没有说明稳一点具体怎么做。
+      - score_level: 2
+        level_name: 基础
+        behavior_desc: 能给出明确方向和至少一个行动，但缺少优先级、责任分工、执行条件或风险控制。
+        evidence_examples:
+          - 先小范围上线，再根据反馈决定下一步。
+        counter_examples:
+          - 有行动方向，但没有负责人、触发条件或失败后的处理方式。
+      - score_level: 3
+        level_name: 中等
+        behavior_desc: 能提出方案，但执行条件、风险控制或备选路径不完整。
+        evidence_examples:
+          - 可以小范围上线，同时安排研发值守。
+        counter_examples:
+          - 方案有方向但缺少触发条件和负责人。
+      - score_level: 4
+        level_name: 较强
+        behavior_desc: 方案包含明确优先级、责任分工、执行顺序、主要风险控制和条件性备选路径，但监测闭环或协同细节仍不完整。
+        evidence_examples:
+          - 两人分别负责核验和修复，每天两次同步；优先处理核心链路，第三天仍未达标就缩小范围并标注不确定性。
+        counter_examples:
+          - 执行安排较完整，但没有把监测结果和继续、暂停或回滚动作连起来。
+      - score_level: 5
+        level_name: 突出
+        behavior_desc: 能形成综合方案，说明优先级、触发条件、责任分工、风险控制和备选方案。
+        evidence_examples:
+          - 我建议灰度上线，先限制在低风险用户群；如果核心错误率超过阈值立即暂停，并提前准备客服话术和回滚方案。
+        counter_examples:
+          - 方案很完整但没有和前面证据相连。
+
+  - dimension_key: dynamic_adjustment
+    name: 动态调整
+    definition: 面对新信息时修正判断、更新方案，并解释调整或不调整的理由。
+    observable_behaviors:
+      - 根据新证据更新判断或明确坚持原判断的理由
+      - 说明新信息对原方案的影响
+      - 能提出后续验证和调整机制
+    invalid_evidence_desc: 面对新信息仍机械坚持原结论，或频繁改变立场但没有解释理由，不能作为高水平动态调整证据。
+    anchors:
+      - score_level: 1
+        level_name: 明显不足
+        behavior_desc: 面对新信息仍坚持原判断，或改变判断但没有理由。
+        evidence_examples:
+          - 不管这些新反馈，我还是觉得按原计划。
+        counter_examples:
+          - 把坚持立场当作稳定性。
+      - score_level: 2
+        level_name: 基础
+        behavior_desc: 能承认新信息需要调整，并提出笼统变化，但没有说明影响程度、触发条件或后续验证。
+        evidence_examples:
+          - 有了这些新情况，我会适当缩小范围再观察。
+        counter_examples:
+          - 只说要调整，却没有说明新信息改变了原判断的哪一部分。
+      - score_level: 3
+        level_name: 中等
+        behavior_desc: 能部分调整判断，但对调整幅度、依据和后续策略说明不足。
+        evidence_examples:
+          - 如果错误率升高，我会考虑延期或者缩小上线范围。
+        counter_examples:
+          - 只说考虑调整，没有解释调整条件。
+      - score_level: 4
+        level_name: 较强
+        behavior_desc: 能根据新证据调整范围或路径，说明调整依据、触发阈值和后续监测，但调整边界或回退机制仍不完整。
+        evidence_examples:
+          - 新数据可比时扩大验证；如果等待时间下降四成则保留，否则停止扩展并复查核心指标。
+        counter_examples:
+          - 已给出阈值和监测方式，但没有说明哪些条件下应恢复原方案或继续保持不变。
+      - score_level: 5
+        level_name: 突出
+        behavior_desc: 能基于新证据清楚调整判断、方案和后续监控策略，并说明调整边界。
+        evidence_examples:
+          - 新信息说明核心链路风险扩大，我会从全面上线改为灰度验证，同时设定错误率、投诉率和回滚阈值。
+        counter_examples:
+          - 调整方案很积极，但没有对应新证据。

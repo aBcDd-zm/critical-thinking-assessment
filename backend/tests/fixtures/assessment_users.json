@@ -1,0 +1,57 @@
+[
+  {
+    "user_id": "student_weak",
+    "nickname": "小林",
+    "profile": {
+      "role_type": "student",
+      "background": "大三学生，参与过课程项目，但缺少真实上线决策经验",
+      "answer_style": "回答较短，容易把复杂问题简化为单一选择"
+    },
+    "expected_level": "low",
+    "privacy_note": "synthetic_fixture_only"
+  },
+  {
+    "user_id": "student_medium",
+    "nickname": "小周",
+    "profile": {
+      "role_type": "student",
+      "background": "研究生，做过产品调研和团队协作项目",
+      "answer_style": "能识别基本取舍，但证据评估和动态调整还不够系统"
+    },
+    "expected_level": "medium",
+    "privacy_note": "synthetic_fixture_only"
+  },
+  {
+    "user_id": "workplace_strong",
+    "nickname": "许经理",
+    "profile": {
+      "role_type": "workplace",
+      "background": "互联网产品经理，有跨部门上线协调经验",
+      "answer_style": "能主动澄清目标、核验证据、比较方案并形成可执行决策"
+    },
+    "expected_level": "high",
+    "privacy_note": "synthetic_fixture_only"
+  },
+  {
+    "user_id": "edge_empty_or_short",
+    "nickname": "测试用户",
+    "profile": {
+      "role_type": "general",
+      "background": "边界样例，用于测试极短回答、跑题回答和兜底追问",
+      "answer_style": "输入非常短或偏离情境"
+    },
+    "expected_level": "edge",
+    "privacy_note": "synthetic_fixture_only"
+  },
+  {
+    "user_id": "dynamic_update_case",
+    "nickname": "陈同学",
+    "profile": {
+      "role_type": "student",
+      "background": "学生创新项目负责人，对上线窗口较敏感",
+      "answer_style": "先给出明确方案，随后需要根据新增信息调整判断"
+    },
+    "expected_level": "medium",
+    "privacy_note": "synthetic_fixture_only"
+  }
+]

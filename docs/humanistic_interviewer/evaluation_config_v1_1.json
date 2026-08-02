@@ -1,0 +1,52 @@
+{
+  "schema_version": "humanistic_evaluation_config_v1_1",
+  "evaluator": "humanistic_interviewer_v1_1",
+  "style_version": "humanistic_v1_1",
+  "prompt_version": "humanistic_compact_v1_1",
+  "context_manifest": {
+    "path": "backend/tests/fixtures/humanistic_interviewer/pilot_context_manifest_v1.json",
+    "schema_version": "humanistic_context_manifest_v1",
+    "expected_context_count": 48,
+    "expected_split_counts": {
+      "train": 32,
+      "dev": 8,
+      "locked_test": 8
+    }
+  },
+  "inherited_scoring_contract": {
+    "evaluator": "humanistic_interviewer_v1",
+    "thresholds_version": "frozen_v1",
+    "context_reuse_only": true
+  },
+  "evidence_contract": {
+    "namespace": "humanistic_v1_1",
+    "namespace_field": "evidence_namespace",
+    "receipt_schema": "humanistic_evaluation_receipt_v1_1",
+    "candidate_generation_version": "humanistic_candidate_generation_v1_1",
+    "blind_review_version": "humanistic_blind_review_v1_1",
+    "measurement_policy_version": "ai_copy_exclusion_v1",
+    "runtime_source_binding": {
+      "bundle_version": "humanistic_v1_1_runtime_source_bundle_v2",
+      "required_sources": [
+        "humanistic_microstructure",
+        "candidate_intent_registry",
+        "runtime_renderer",
+        "question_validator",
+        "session_integration",
+        "audit_export",
+        "evidence_tracker",
+        "behavior_signal_extractor",
+        "deterministic_planner",
+        "runtime_prompt_seed"
+      ]
+    },
+    "legacy_v1_evidence_accepted": false
+  },
+  "release_gate": {
+    "default_enabled": false,
+    "default_style": "baseline_v1",
+    "missing_evidence_status": "BLOCKED",
+    "missing_evidence_exit_code": 2,
+    "requires_member_a_measurement_approval": true
+  }
+}

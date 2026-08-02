@@ -1,0 +1,19 @@
+template_code: default_report
+name: 默认结构化测评报告模板
+version: v1
+status: active
+structure_json:
+  sections:
+    - key: overview
+      title: 总体概览
+    - key: dimension_scores
+      title: 六维评分
+    - key: evidence_analysis
+      title: 关键证据分析
+    - key: strengths
+      title: 优势表现
+    - key: suggestions
+      title: 改进建议
+    - key: development_plan
+      title: 发展计划
+

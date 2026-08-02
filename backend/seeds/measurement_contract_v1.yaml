@@ -1,0 +1,478 @@
+schema_version: measurement_contract_v1
+rubric_version: agent_test_v2_five_level
+
+slot_statuses:
+  not_available:
+    meaning: 尚未发生测量该维度所必需的真实情境或事件
+    score_eligible: false
+  not_started:
+    meaning: 已经提供公平诱发机会，但尚无有效用户证据
+    score_eligible: false
+  partial:
+    meaning: 已有构念相关证据，但不足以稳定定位行为锚点
+    score_eligible: false
+  sufficient:
+    meaning: 证据已经足以定位行为锚点，包括明确的低水平表现
+    score_eligible: true
+  blocked:
+    meaning: 因技术失败、用户拒答或轮次耗尽而无法继续取得充分证据
+    score_eligible: false
+
+evidence_policy:
+  source_speaker: user
+  source_id_field: dialogue_turn_id
+  allow_cross_node_accumulation: true
+  allow_same_turn_multiple_dimensions: true
+  absence_is_low_ability: false
+  conflict_policy: preserve_both
+  deduplicate_by:
+    - dimension_key
+    - behavior_key
+    - dialogue_turn_id
+    - polarity
+  opportunity_valid_if:
+    - 问题与目标维度直接相关
+    - 已提供作答所需的最低情境信息
+    - 问法中性且没有预先给出高质量答案结构
+    - 用户确实获得作答机会
+    - 不存在模型网络转写或页面技术故障
+  diagnostic_low_requires:
+    - 已提供明确或公平的中性诱发机会
+    - 用户给出了具有实际含义的回答
+    - 不存在技术故障或内容丢失
+    - 回答不是对提示语的简单复述
+
+confidence_policy:
+  semantics: evidence_classification_confidence_not_ability
+  delta_formula: confidence_after_minus_before
+  numeric_mapping_status: requires_expert_calibration
+  require_new_evidence_for_increase: true
+  repeated_evidence_delta: zero
+  contradictory_evidence_effect: must_not_increase
+  unchanged_without_evidence_delta: true
+  rounding_digits: 4
+
+budget:
+  min_total_user_turns: 9
+  max_total_user_turns: 12
+  max_probes_per_topic: 2
+  max_consecutive_same_dimension: 2
+  max_clarifications_per_answer: 1
+  reserved_update_turns: 2
+  reserved_closure_turns: 1
+
+conclusion_policy:
+  not_available: insufficient_evidence
+  not_started: insufficient_evidence
+  partial: insufficient_evidence
+  sufficient: score
+  blocked: insufficient_evidence
+  blocked_is_low_score: false
+
+events:
+  - event_code: opening_context
+    opportunity_dimensions:
+      - problem_definition
+      - evidence_evaluation
+      - reasoning_argumentation
+    unlock_dimensions: []
+
+  - event_code: evidence_uncertainty
+    opportunity_dimensions:
+      - evidence_evaluation
+      - reasoning_argumentation
+    unlock_dimensions: []
+
+  - event_code: stakeholder_conflict
+    opportunity_dimensions:
+      - multiple_perspectives
+      - reasoning_argumentation
+    unlock_dimensions: []
+
+  - event_code: decision_pressure
+    opportunity_dimensions:
+      - integrative_decision
+      - reasoning_argumentation
+    unlock_dimensions: []
+
+  - event_code: counter_evidence
+    opportunity_dimensions:
+      - evidence_evaluation
+      - reasoning_argumentation
+      - dynamic_adjustment
+    unlock_dimensions:
+      - dynamic_adjustment
+
+  - event_code: integration
+    opportunity_dimensions:
+      - problem_definition
+      - multiple_perspectives
+      - integrative_decision
+      - dynamic_adjustment
+    unlock_dimensions: []
+
+dimensions:
+  - dimension_key: problem_definition
+    initial_status: not_started
+    becomes_available_on: []
+    opportunity_event_codes:
+      - opening_context
+      - integration
+    behaviors:
+      - behavior_key: distinguish_surface_and_decision
+        rubric_behavior: 区分表面压力、真实问题和待决策事项
+        valid_evidence_signals:
+          - 明确区分表面现象、压力和真正需要作出的决策
+          - 指出当前首先需要弄清或决定的核心问题
+        invalid_evidence_signals:
+          - 仅复述情境背景
+          - 只给出结论或个人偏好
+      - behavior_key: define_boundaries_constraints_stakeholders
+        rubric_behavior: 说明问题边界、约束条件和受影响对象
+        valid_evidence_signals:
+          - 说明时间资源权限或信息方面的边界
+          - 指出受到决策影响的对象
+        invalid_evidence_signals:
+          - 只笼统说存在限制
+          - 罗列角色但没有说明其与问题的关系
+      - behavior_key: frame_discussable_decision_problem
+        rubric_behavior: 能把模糊情境转化为可讨论的决策问题
+        valid_evidence_signals:
+          - 把模糊情境改写为可以比较和验证的决策问题
+          - 说明需要权衡的目标或冲突
+        invalid_evidence_signals:
+          - 只说需要进一步讨论
+          - 只列行动但没有界定问题
+    partial_when:
+      any_of_behavior_keys:
+        - distinguish_surface_and_decision
+        - define_boundaries_constraints_stakeholders
+        - frame_discussable_decision_problem
+      min_observed_behaviors: 1
+      min_distinct_user_turns: 1
+    sufficient_positive_when:
+      all_of_behavior_keys:
+        - distinguish_surface_and_decision
+      any_of_behavior_groups:
+        - - define_boundaries_constraints_stakeholders
+          - frame_discussable_decision_problem
+      min_distinct_user_turns: 1
+      require_explicit_relationship: true
+      require_no_unresolved_conflict: true
+    sufficient_diagnostic_low_when:
+      fair_opportunity_type: neutral_problem_framing
+      required_response_signals:
+        - 用户作出了直接选择或实质性表态
+        - 回答仍停留在表面现象或单一诉求
+      must_lack_behavior_keys:
+        - define_boundaries_constraints_stakeholders
+        - frame_discussable_decision_problem
+      requires_substantive_response: true
+      requires_no_technical_failure: true
+      requires_no_prompt_echo_only: true
+    cross_node_accumulation: true
+
+  - dimension_key: evidence_evaluation
+    initial_status: not_started
+    becomes_available_on: []
+    opportunity_event_codes:
+      - opening_context
+      - evidence_uncertainty
+      - counter_evidence
+    behaviors:
+      - behavior_key: inspect_source_sample_quality
+        rubric_behavior: 主动询问信息来源、样本范围和数据质量
+        valid_evidence_signals:
+          - 具体检查信息来源样本范围或数据质量
+          - 说明为什么某类数据可能不可靠或不具代表性
+        invalid_evidence_signals:
+          - 只说要看看数据
+          - 只罗列指标名称而不评价质量
+      - behavior_key: distinguish_fact_opinion_assumption
+        rubric_behavior: 区分事实、意见和未经验证的假设
+        valid_evidence_signals:
+          - 明确区分已知事实、角色观点和待验证假设
+          - 指出某个结论目前只是推测
+        invalid_evidence_signals:
+          - 直接把部门意见当作事实
+          - 仅因为数据量大就认为结论可靠
+      - behavior_key: identify_gap_and_verification
+        rubric_behavior: 说明现有证据的不足和需要补充核实的信息
+        valid_evidence_signals:
+          - 指出现有材料不能确定的部分
+          - 提出具体补查信息或交叉验证方法
+        invalid_evidence_signals:
+          - 只说信息不足
+          - 提出补查但没有说明补查目的
+    partial_when:
+      any_of_behavior_keys:
+        - inspect_source_sample_quality
+        - distinguish_fact_opinion_assumption
+        - identify_gap_and_verification
+      min_observed_behaviors: 1
+      min_distinct_user_turns: 1
+    sufficient_positive_when:
+      all_of_behavior_keys:
+        - distinguish_fact_opinion_assumption
+      any_of_behavior_groups:
+        - - inspect_source_sample_quality
+          - identify_gap_and_verification
+      min_distinct_user_turns: 1
+      require_explicit_relationship: true
+      require_no_unresolved_conflict: true
+    sufficient_diagnostic_low_when:
+      fair_opportunity_type: neutral_evidence_quality_check
+      required_response_signals:
+        - 用户明确接受某项数据观点或权威意见
+        - 用户没有检查信息来源、数据质量、证据局限或验证方式
+      must_lack_behavior_keys:
+        - inspect_source_sample_quality
+        - identify_gap_and_verification
+      requires_substantive_response: true
+      requires_no_technical_failure: true
+      requires_no_prompt_echo_only: true
+    cross_node_accumulation: true
+
+  - dimension_key: reasoning_argumentation
+    initial_status: not_started
+    becomes_available_on: []
+    opportunity_event_codes:
+      - opening_context
+      - evidence_uncertainty
+      - stakeholder_conflict
+      - decision_pressure
+      - counter_evidence
+    behaviors:
+      - behavior_key: explain_premise_evidence_inference
+        rubric_behavior: 说明判断的前提、依据和推导过程
+        valid_evidence_signals:
+          - 明确说明判断所依赖的前提或依据
+          - 给出从依据到判断的推导过程
+        invalid_evidence_signals:
+          - 只有结论
+          - 使用口号或经验判断代替推导
+      - behavior_key: identify_assumption_risk_counterexample
+        rubric_behavior: 能识别推理中的假设、风险和反例
+        valid_evidence_signals:
+          - 指出关键假设或判断可能失效的情况
+          - 主动考虑反例替代解释或推理风险
+        invalid_evidence_signals:
+          - 只说任何方案都有风险
+          - 给出假设但没有说明其作用
+      - behavior_key: connect_evidence_and_conclusion
+        rubric_behavior: 能把结论和证据之间的关系讲清楚
+        valid_evidence_signals:
+          - 说明哪些证据支持或削弱当前结论
+          - 使用明确的条件关系连接证据和结论
+        invalid_evidence_signals:
+          - 证据和结论只是并列出现
+          - 堆砌专业术语但没有推理关系
+    partial_when:
+      any_of_behavior_keys:
+        - explain_premise_evidence_inference
+        - identify_assumption_risk_counterexample
+        - connect_evidence_and_conclusion
+      min_observed_behaviors: 1
+      min_distinct_user_turns: 1
+    sufficient_positive_when:
+      all_of_behavior_keys:
+        - explain_premise_evidence_inference
+      any_of_behavior_groups:
+        - - identify_assumption_risk_counterexample
+          - connect_evidence_and_conclusion
+      min_distinct_user_turns: 1
+      require_explicit_relationship: true
+      require_no_unresolved_conflict: true
+    sufficient_diagnostic_low_when:
+      fair_opportunity_type: neutral_reason_request
+      required_response_signals:
+        - 用户给出了明确结论
+        - 用户没有提供有效依据或只给出循环理由
+      must_lack_behavior_keys:
+        - explain_premise_evidence_inference
+        - connect_evidence_and_conclusion
+      requires_substantive_response: true
+      requires_no_technical_failure: true
+      requires_no_prompt_echo_only: true
+    cross_node_accumulation: true
+
+  - dimension_key: multiple_perspectives
+    initial_status: not_started
+    becomes_available_on: []
+    opportunity_event_codes:
+      - stakeholder_conflict
+      - integration
+    behaviors:
+      - behavior_key: identify_multiple_stakeholders
+        rubric_behavior: 主动识别多个利益相关方
+        valid_evidence_signals:
+          - 主动识别至少两个受到影响的相关方
+          - 说明遗漏的相关方可能承担的影响
+        invalid_evidence_signals:
+          - 只列一个角色
+          - 只复述情境已经给出的角色名称
+      - behavior_key: compare_goals_risks_benefits
+        rubric_behavior: 比较不同角色的诉求、风险和收益
+        valid_evidence_signals:
+          - 区分不同角色的目标风险或收益
+          - 对至少两个角色进行实质比较
+        invalid_evidence_signals:
+          - 只罗列角色诉求
+          - 笼统表示需要兼顾各方
+      - behavior_key: analyze_short_long_term_conflict
+        rubric_behavior: 能看到短期目标与长期影响之间的冲突
+        valid_evidence_signals:
+          - 说明短期收益和长期影响之间的冲突
+          - 提出处理角色冲突的优先原则或责任安排
+        invalid_evidence_signals:
+          - 只提到短期或长期其中一方
+          - 宣称平衡但没有实际取舍
+    partial_when:
+      any_of_behavior_keys:
+        - identify_multiple_stakeholders
+        - compare_goals_risks_benefits
+        - analyze_short_long_term_conflict
+      min_observed_behaviors: 1
+      min_distinct_user_turns: 1
+    sufficient_positive_when:
+      all_of_behavior_keys:
+        - identify_multiple_stakeholders
+      any_of_behavior_groups:
+        - - compare_goals_risks_benefits
+          - analyze_short_long_term_conflict
+      min_distinct_user_turns: 1
+      require_explicit_relationship: true
+      require_no_unresolved_conflict: true
+    sufficient_diagnostic_low_when:
+      fair_opportunity_type: explicit_multi_party_conflict
+      required_response_signals:
+        - 情境已经明确呈现至少两个角色的冲突
+        - 用户仍只从单一角色便利出发作出实质判断
+      must_lack_behavior_keys:
+        - compare_goals_risks_benefits
+        - analyze_short_long_term_conflict
+      requires_substantive_response: true
+      requires_no_technical_failure: true
+      requires_no_prompt_echo_only: true
+    cross_node_accumulation: true
+
+  - dimension_key: integrative_decision
+    initial_status: not_started
+    becomes_available_on: []
+    opportunity_event_codes:
+      - decision_pressure
+      - integration
+    behaviors:
+      - behavior_key: define_plan_priority_conditions
+        rubric_behavior: 提出明确方案、优先级和执行条件
+        valid_evidence_signals:
+          - 提出明确方案并说明执行优先级
+          - 给出执行或停止的条件
+        invalid_evidence_signals:
+          - 只表达态度或原则
+          - 方案没有优先级或条件
+      - behavior_key: explain_tradeoff_risk_fallback
+        rubric_behavior: 说明取舍理由、风险控制和备选方案
+        valid_evidence_signals:
+          - 把取舍理由与前述证据联系起来
+          - 说明风险控制回退或备选路径
+        invalid_evidence_signals:
+          - 只说要控制风险
+          - 备选方案与已有证据无关
+      - behavior_key: convert_judgment_to_actions
+        rubric_behavior: 能把判断转化为可落地的行动安排
+        valid_evidence_signals:
+          - 给出可执行步骤责任或资源安排
+          - 说明监测指标和后续动作
+        invalid_evidence_signals:
+          - 只有行动口号
+          - 行动清单缺少执行边界
+    partial_when:
+      any_of_behavior_keys:
+        - define_plan_priority_conditions
+        - explain_tradeoff_risk_fallback
+        - convert_judgment_to_actions
+      min_observed_behaviors: 1
+      min_distinct_user_turns: 1
+    sufficient_positive_when:
+      all_of_behavior_keys:
+        - define_plan_priority_conditions
+      any_of_behavior_groups:
+        - - explain_tradeoff_risk_fallback
+          - convert_judgment_to_actions
+      min_distinct_user_turns: 1
+      require_explicit_relationship: true
+      require_no_unresolved_conflict: true
+    sufficient_diagnostic_low_when:
+      fair_opportunity_type: neutral_plan_or_integration_request
+      required_response_signals:
+        - 用户给出了实质性态度或总体原则
+        - 用户没有给出可执行步骤条件或风险控制
+      must_lack_behavior_keys:
+        - explain_tradeoff_risk_fallback
+        - convert_judgment_to_actions
+      requires_substantive_response: true
+      requires_no_technical_failure: true
+      requires_no_prompt_echo_only: true
+    cross_node_accumulation: true
+
+  - dimension_key: dynamic_adjustment
+    initial_status: not_available
+    becomes_available_on:
+      - counter_evidence
+    opportunity_event_codes:
+      - counter_evidence
+      - integration
+    behaviors:
+      - behavior_key: update_or_retain_judgment_with_reason
+        rubric_behavior: 根据新证据更新判断或明确坚持原判断的理由
+        valid_evidence_signals:
+          - 根据真实新信息修改判断并说明理由
+          - 明确保留原判断并解释新信息为何不足以改变它
+        invalid_evidence_signals:
+          - 没有分析新信息就机械坚持原结论
+          - 无理由地完全改变立场
+      - behavior_key: explain_new_information_impact
+        rubric_behavior: 说明新信息对原方案的影响
+        valid_evidence_signals:
+          - 说明真实新信息改变或不改变原方案的哪一部分
+          - 区分保留内容和调整内容
+        invalid_evidence_signals:
+          - 只重复新信息
+          - 在事件发生前只作假设性如果回答
+      - behavior_key: propose_followup_validation_adjustment
+        rubric_behavior: 能提出后续验证和调整机制
+        valid_evidence_signals:
+          - 提出更新后的监测验证或调整机制
+          - 给出下一次改变方案的触发条件
+        invalid_evidence_signals:
+          - 只说后续继续观察
+          - 没有阈值范围或后续动作
+    partial_when:
+      any_of_behavior_keys:
+        - update_or_retain_judgment_with_reason
+        - explain_new_information_impact
+        - propose_followup_validation_adjustment
+      min_observed_behaviors: 1
+      min_distinct_user_turns: 1
+    sufficient_positive_when:
+      all_of_behavior_keys:
+        - explain_new_information_impact
+      any_of_behavior_groups:
+        - - update_or_retain_judgment_with_reason
+          - propose_followup_validation_adjustment
+      min_distinct_user_turns: 1
+      require_explicit_relationship: true
+      require_no_unresolved_conflict: true
+    sufficient_diagnostic_low_when:
+      fair_opportunity_type: actual_counter_evidence_event
+      required_response_signals:
+        - 系统已经释放与原判断相关的真实新信息
+        - 用户明确忽略新信息或无理由反转判断
+      must_lack_behavior_keys:
+        - explain_new_information_impact
+        - propose_followup_validation_adjustment
+      requires_substantive_response: true
+      requires_no_technical_failure: true
+      requires_no_prompt_echo_only: true
+    cross_node_accumulation: true

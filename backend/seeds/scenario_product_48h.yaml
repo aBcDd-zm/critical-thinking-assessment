@@ -1,0 +1,601 @@
+scenario_code: product_launch_48h
+title: 产品上线前 48 小时
+background: 团队计划在 48 小时后上线一款面向高校与初入职场用户的任务协作产品，但内测反馈、市场窗口、技术风险和团队资源之间存在冲突。受测者需要扮演项目负责人，在信息逐步释放的过程中完成判断和决策。
+target_audience: general
+scenario_type: management_decision
+difficulty_level: medium
+estimated_minutes: 30
+rotation_weight: 100
+is_default: true
+version: agent_test_v1
+status: active
+stages:
+  - stage_code: s1_problem_definition
+    stage_order: 1
+    title: 先把问题说清楚
+    stage_goal: 观察用户能否把上线压力、质量风险和资源约束转化为清晰的决策问题。
+    context: 产品预计 48 小时后发布。市场团队认为错过窗口会影响宣传节奏，研发团队提示仍有部分同步失败反馈，运营团队担心上线后咨询量激增。
+    main_question: 如果现在由你负责，你会先把哪件事定下来？
+    context_generation_mode: config_guided
+    context_ai_weight: 30
+    context_generation_constraints_json:
+      must_keep_facts:
+        - 48 小时后计划上线
+        - 市场团队希望按时发布
+        - 研发团队提示同步失败反馈
+        - 运营团队担心上线后咨询量
+      forbidden:
+        - 虚构严重事故
+        - 直接给出标准答案
+        - 泄露评分维度名称
+    max_followups: 2
+    estimated_minutes: 5
+    exit_criteria_json:
+      min_user_turns: 1
+      completion_mode: bounded_followup
+      expected_evidence:
+        - 核心问题
+        - 约束条件
+        - 决策边界
+      evidence_guidance:
+        核心问题:
+          meaning: 能指出当前最需要解决、判断或取舍的核心事项。
+          covered_examples:
+            - 先决定如何压缩范围，保证在规定时间内完成。
+            - 要先判断按时上线的质量风险是否可控。
+        约束条件:
+          meaning: 能识别时间、质量、资源、市场窗口或运营承载中的至少一个现实限制。
+          covered_examples:
+            - 只有 48 小时，团队可能做不完。
+        决策边界:
+          meaning: 能说明要调整的范围、时间、质量底线或不可妥协条件；不要求使用“决策边界”术语。
+          covered_examples:
+            - 压缩功能范围，先完成必须上线的部分。
+    dimensions:
+      - dimension_key: problem_definition
+        observe_role: primary
+        weight: 1.0
+      - dimension_key: evidence_evaluation
+        observe_role: secondary
+        weight: 0.5
+    intervention_rules:
+      - rule_code: clarify_core_problem
+        rule_type: clarify
+        trigger_condition: 用户回答过于笼统，只说上线或延期，没有说明核心问题。
+        strategy_direction: 只追问用户当前最先要解决的一个具体问题。
+        sample_question: 你刚才说到了上线安排。眼下最先要解决的具体问题是什么？
+        question_generation_mode: strategy_guided
+        question_ai_weight: 40
+        question_generation_constraints_json:
+          must_focus_dimensions:
+            - problem_definition
+          forbidden:
+            - 暗示唯一正确答案
+            - 泄露评分标准
+        fallback_question: 如果只能先定一件事，你会先定什么？
+        priority: 10
+        max_use_count: 1
+        dimensions:
+          - dimension_key: problem_definition
+            weight: 1.0
+      - rule_code: trap_binary_decision
+        rule_type: trap
+        trigger_condition: 用户把问题简化成只能上线或延期二选一。
+        strategy_direction: 引导用户想到二选一之外的一种安排，但不提供具体方案。
+        sample_question: 除了直接上线或延期，你还会考虑别的安排吗？
+        question_generation_mode: strategy_guided
+        question_ai_weight: 45
+        question_generation_constraints_json:
+          must_focus_dimensions:
+            - problem_definition
+            - integrative_decision
+          forbidden:
+            - 强行引导用户选择灰度上线
+        fallback_question: 这件事还有第三种处理方式吗？
+        priority: 20
+        max_use_count: 1
+        dimensions:
+          - dimension_key: problem_definition
+            weight: 0.8
+          - dimension_key: integrative_decision
+            weight: 0.4
+
+  - stage_code: s2_evidence_verification
+    stage_order: 2
+    title: 先看看证据
+    stage_goal: 观察用户能否主动评价证据来源、质量、样本范围和验证方式。
+    context: 目前已有内测反馈 86 条，其中 19 条提到任务同步失败。市场团队认为反馈数量不算高，研发团队认为失败可能集中在少数机型或弱网环境。
+    main_question: 要判断同步失败严不严重，你第一步会查什么？
+    context_generation_mode: config_guided
+    context_ai_weight: 35
+    context_generation_constraints_json:
+      must_keep_facts:
+        - 内测反馈 86 条
+        - 19 条提到任务同步失败
+        - 失败原因可能与机型或网络环境有关
+      forbidden:
+        - 编造完整测试报告
+        - 把反馈数量解释成确定结论
+    max_followups: 2
+    estimated_minutes: 5
+    exit_criteria_json:
+      min_user_turns: 1
+      completion_mode: bounded_followup
+      expected_evidence:
+        - 证据来源
+        - 样本范围
+        - 可靠性判断
+      evidence_guidance:
+        证据来源:
+          meaning: 提出需要查询的信息、数据或渠道即可，不要求用户声称已经知道未知事实。
+          covered_examples:
+            - 我会先看失败日志和用户反馈详情。
+        样本范围:
+          meaning: 提出要比较哪些用户、设备、机型或网络环境，或关注样本代表性。
+          covered_examples:
+            - 要看低端设备和弱网用户是否也被覆盖。
+        可靠性判断:
+          meaning: 承认现有线索不足、不愿仅凭数量下结论，或提出复现、交叉验证和对比方法。
+          covered_examples:
+            - 只有 19 条还不能判断严重程度，需要看总用户数和复现情况。
+            - 没有别的线索，我不能凭这个数量直接下结论。
+    dimensions:
+      - dimension_key: evidence_evaluation
+        observe_role: primary
+        weight: 1.0
+      - dimension_key: reasoning_argumentation
+        observe_role: secondary
+        weight: 0.5
+    dynamic_infos:
+      - info_code: sample_bias_warning
+        title: 内测样本偏差提示
+        content: 内测用户主要来自活跃社群，机型较新，低端设备和弱网环境样本明显不足。
+        info_type: counter_evidence
+        trigger_condition: 用户只根据现有反馈数量作判断，未考虑样本代表性时释放。
+        priority: 10
+        dimensions:
+          - dimension_key: evidence_evaluation
+            weight: 1.0
+          - dimension_key: dynamic_adjustment
+            weight: 0.4
+    intervention_rules:
+      - rule_code: clarify_evidence_source
+        rule_type: clarify
+        trigger_condition: 用户提到要看数据，但没有说明数据来源和质量。
+        strategy_direction: 只追问用户会先核实的一类信息或一个来源。
+        sample_question: 你说要看数据。你会先从哪里找到它？
+        question_generation_mode: strategy_guided
+        question_ai_weight: 40
+        question_generation_constraints_json:
+          must_focus_dimensions:
+            - evidence_evaluation
+          forbidden:
+            - 诱导用户只看单一指标
+        fallback_question: 你会先从哪里找相关信息？
+        priority: 10
+        max_use_count: 1
+        dimensions:
+          - dimension_key: evidence_evaluation
+            weight: 1.0
+      - rule_code: challenge_single_metric
+        rule_type: challenge
+        trigger_condition: 用户只依据反馈数量、错误率或部门意见中的单一指标判断。
+        strategy_direction: 只追问单一指标可能遗漏的一种情况。
+        sample_question: 只看这个数字，最容易漏掉什么情况？
+        question_generation_mode: strategy_guided
+        question_ai_weight: 45
+        question_generation_constraints_json:
+          must_focus_dimensions:
+            - evidence_evaluation
+            - reasoning_argumentation
+          forbidden:
+            - 直接否定用户
+        fallback_question: 除了这个数字，你还会再看什么？
+        priority: 20
+        max_use_count: 1
+        dimensions:
+          - dimension_key: evidence_evaluation
+            weight: 0.8
+          - dimension_key: reasoning_argumentation
+            weight: 0.5
+
+  - stage_code: s3_stakeholder_perspectives
+    stage_order: 3
+    title: 听听各方怎么想
+    stage_goal: 观察用户能否识别不同利益相关方诉求，并分析冲突、影响和取舍。
+    context: 市场团队强调宣传档期已经购买，研发团队担心质量声誉，运营团队担心客服承载，部分种子用户希望尽快使用协作功能。
+    main_question: 四方意见不一样时，你会先处理谁的担忧？
+    context_generation_mode: config_guided
+    context_ai_weight: 35
+    context_generation_constraints_json:
+      must_keep_facts:
+        - 市场团队已投入宣传资源
+        - 研发团队担心质量声誉
+        - 运营团队担心客服承载
+        - 种子用户希望尽快使用
+      forbidden:
+        - 把任一团队描述为绝对正确或错误
+    max_followups: 2
+    estimated_minutes: 5
+    exit_criteria_json:
+      min_user_turns: 1
+      completion_mode: bounded_followup
+      expected_evidence:
+        - 利益相关方
+        - 视角冲突
+        - 取舍依据
+      evidence_guidance:
+        利益相关方:
+          meaning: 识别至少一个受到决策影响的团队或用户群体，并说明其诉求。
+          covered_examples:
+            - 用户最不能忽略，因为同步失败会直接影响使用。
+        视角冲突:
+          meaning: 能说明不同相关方的目标、风险或成本之间存在什么冲突。
+          covered_examples:
+            - 市场要赶窗口，但研发担心质量和口碑。
+        取舍依据:
+          meaning: 给出判断优先级所依据的影响程度、可逆性、风险或资源条件。
+          covered_examples:
+            - 优先处理不可逆的用户损失，再考虑宣传成本。
+    dimensions:
+      - dimension_key: multiple_perspectives
+        observe_role: primary
+        weight: 1.0
+      - dimension_key: problem_definition
+        observe_role: secondary
+        weight: 0.4
+    dynamic_infos:
+      - info_code: support_capacity_warning
+        title: 客服承载风险
+        content: 运营团队预计上线当天咨询量可能达到平时 3 倍，但当前只能安排 1 名同学值守。
+        info_type: stakeholder_feedback
+        trigger_condition: 用户忽略运营或用户支持视角时释放。
+        priority: 20
+        dimensions:
+          - dimension_key: multiple_perspectives
+            weight: 1.0
+          - dimension_key: integrative_decision
+            weight: 0.5
+    intervention_rules:
+      - rule_code: expand_stakeholder_view
+        rule_type: open_followup
+        trigger_condition: 用户只从研发或市场单一视角分析。
+        strategy_direction: 只追问另一个直接受到影响的角色。
+        sample_question: 除了你刚才提到的一方，还有谁会直接受到影响？
+        question_generation_mode: strategy_guided
+        question_ai_weight: 45
+        question_generation_constraints_json:
+          must_focus_dimensions:
+            - multiple_perspectives
+          forbidden:
+            - 要求用户列出固定答案
+        fallback_question: 这项决定还会影响谁？
+        priority: 10
+        max_use_count: 1
+        dimensions:
+          - dimension_key: multiple_perspectives
+            weight: 1.0
+      - rule_code: trap_one_sided_view
+        rule_type: trap
+        trigger_condition: 用户明显站在某一方立场上，并忽视其他方代价。
+        strategy_direction: 从另一方立场，只追问他们最担心的一点。
+        sample_question: 如果换成另一方来看，他们最担心什么？
+        question_generation_mode: strategy_guided
+        question_ai_weight: 45
+        question_generation_constraints_json:
+          must_focus_dimensions:
+            - multiple_perspectives
+            - reasoning_argumentation
+          forbidden:
+            - 进行人身评价
+        fallback_question: 换个立场看，别人最可能担心什么？
+        priority: 20
+        max_use_count: 1
+        dimensions:
+          - dimension_key: multiple_perspectives
+            weight: 0.8
+          - dimension_key: reasoning_argumentation
+            weight: 0.4
+
+  - stage_code: s4_reasoning_decision
+    stage_order: 4
+    title: 做出初步选择
+    stage_goal: 观察用户能否基于证据和多方视角形成清楚的推理链与初步方案。
+    context: 现在需要向负责人提交一个初步建议。你可以选择按时上线、延期上线、灰度上线，或提出其他组合方案，但需要说明依据。
+    main_question: 现在由你拍板，你会怎么安排这次上线？
+    context_generation_mode: config_guided
+    context_ai_weight: 35
+    context_generation_constraints_json:
+      must_keep_facts:
+        - 需要提交初步建议
+        - 可以选择上线、延期、灰度或组合方案
+        - 必须说明依据
+      forbidden:
+        - 直接推荐某个方案
+    max_followups: 2
+    estimated_minutes: 5
+    exit_criteria_json:
+      min_user_turns: 1
+      completion_mode: bounded_followup
+      expected_evidence:
+        - 决策方案
+        - 推理链
+        - 关键假设
+      evidence_guidance:
+        决策方案:
+          meaning: 明确选择按时、延期、灰度或其他组合方案。
+          covered_examples:
+            - 先让少量用户灰度使用，再逐步扩大。
+        推理链:
+          meaning: 能把已知事实、风险或权衡与结论连接起来。
+          covered_examples:
+            - 因为同步风险还没验证，所以先缩小上线范围。
+        关键假设:
+          meaning: 指出方案成立依赖的条件、尚待验证之处或假设不成立时的变化。
+          covered_examples:
+            - 前提是核心链路在灰度范围内能够稳定运行。
+    dimensions:
+      - dimension_key: reasoning_argumentation
+        observe_role: primary
+        weight: 1.0
+      - dimension_key: integrative_decision
+        observe_role: secondary
+        weight: 0.6
+    dynamic_infos:
+      - info_code: competitor_launch_noise
+        title: 竞品发布传闻
+        content: 市场团队收到消息，竞品可能也会在本周发布类似功能，但消息来源暂未确认。
+        info_type: risk_signal
+        trigger_condition: 用户没有区分确定事实和未经证实信息时释放。
+        priority: 30
+        dimensions:
+          - dimension_key: evidence_evaluation
+            weight: 0.7
+          - dimension_key: reasoning_argumentation
+            weight: 0.7
+    intervention_rules:
+      - rule_code: build_reasoning_chain
+        rule_type: clarify
+        trigger_condition: 用户给出方案但没有说明证据到结论的推理链。
+        strategy_direction: 只追问支撑当前选择的一个主要依据。
+        sample_question: 你这样安排，最主要的依据是什么？
+        question_generation_mode: strategy_guided
+        question_ai_weight: 40
+        question_generation_constraints_json:
+          must_focus_dimensions:
+            - reasoning_argumentation
+          forbidden:
+            - 替用户补全推理
+        fallback_question: 你为什么会这样安排？
+        priority: 10
+        max_use_count: 1
+        dimensions:
+          - dimension_key: reasoning_argumentation
+            weight: 1.0
+      - rule_code: challenge_hidden_assumption
+        rule_type: challenge
+        trigger_condition: 用户推理中存在未说明的关键假设。
+        strategy_direction: 只追问一个会导致方案改变的条件。
+        sample_question: 如果最关键的条件没满足，你会怎么调整？
+        question_generation_mode: strategy_guided
+        question_ai_weight: 45
+        question_generation_constraints_json:
+          must_focus_dimensions:
+            - reasoning_argumentation
+            - dynamic_adjustment
+          forbidden:
+            - 直接说用户推理错误
+        fallback_question: 什么情况出现时，你会改变这个方案？
+        priority: 20
+        max_use_count: 1
+        dimensions:
+          - dimension_key: reasoning_argumentation
+            weight: 0.8
+          - dimension_key: dynamic_adjustment
+            weight: 0.4
+
+  - stage_code: s5_dynamic_adjustment
+    stage_order: 5
+    title: 新情况来了
+    stage_goal: 观察用户面对新证据时是否能调整判断、解释理由并更新方案。
+    context: 你刚准备提交建议时，团队又收到了一条可能影响原方案的新信息。
+    main_question: 看到这条新信息后，你会改变刚才的安排吗？
+    context_generation_mode: config_guided
+    context_ai_weight: 40
+    context_generation_constraints_json:
+      must_keep_facts:
+        - 会出现新的风险或反向证据
+        - 用户需要说明是否调整以及为什么
+      forbidden:
+        - 一次性释放所有信息
+        - 把新信息包装成确定结论
+    max_followups: 3
+    estimated_minutes: 6
+    exit_criteria_json:
+      min_user_turns: 1
+      completion_mode: bounded_followup
+      expected_evidence:
+        - 是否调整判断
+        - 调整理由
+        - 后续监控条件
+      evidence_guidance:
+        是否调整判断:
+          meaning: 明确表示改变、保持或暂缓原判断。
+          covered_examples:
+            - 我会缩小灰度范围，但不完全取消上线。
+        调整理由:
+          meaning: 说明新信息为什么改变或不改变原判断。
+          covered_examples:
+            - 弱网复现集中在核心链路，风险比之前判断的更高。
+        后续监控条件:
+          meaning: 提出继续观察的数据、条件或触发再次调整的信号。
+          covered_examples:
+            - 继续看同步失败率，超过阈值就暂停扩大。
+    dimensions:
+      - dimension_key: dynamic_adjustment
+        observe_role: primary
+        weight: 1.0
+      - dimension_key: evidence_evaluation
+        observe_role: secondary
+        weight: 0.6
+    dynamic_infos:
+      - info_code: error_rate_increase
+        title: 核心错误率升高
+        content: 最新灰度日志显示，任务同步失败集中在核心协作链路，弱网环境下复现率明显升高。
+        info_type: data_update
+        trigger_condition: 用户倾向按时上线且对核心风险关注不足时释放。
+        priority: 10
+        dimensions:
+          - dimension_key: dynamic_adjustment
+            weight: 1.0
+          - dimension_key: evidence_evaluation
+            weight: 0.6
+      - info_code: key_user_positive_feedback
+        title: 种子用户正向反馈
+        content: 一组高频种子用户表示，即使存在少量同步延迟，也愿意尽快使用核心协作功能，并愿意参与灰度反馈。
+        info_type: counter_evidence
+        trigger_condition: 用户倾向全面延期且没有考虑用户价值和灰度可能性时释放。
+        priority: 20
+        dimensions:
+          - dimension_key: dynamic_adjustment
+            weight: 0.8
+          - dimension_key: multiple_perspectives
+            weight: 0.6
+    intervention_rules:
+      - rule_code: release_dynamic_risk_signal
+        rule_type: dynamic_update
+        trigger_condition: 用户已有明确方案，但尚未处理新风险信号。
+        strategy_direction: 简短释放一条新信息，只追问用户是否调整安排。
+        sample_question: 新情况是：弱网下的核心同步失败更频繁了。你会改动刚才的安排吗？
+        question_generation_mode: template_guided
+        question_ai_weight: 35
+        question_generation_constraints_json:
+          must_focus_dimensions:
+            - dynamic_adjustment
+            - evidence_evaluation
+          forbidden:
+            - 强迫用户改变结论
+        fallback_question: 这条新信息会让你改变安排吗？
+        priority: 10
+        max_use_count: 1
+        dimensions:
+          - dimension_key: dynamic_adjustment
+            weight: 1.0
+      - rule_code: explain_adjustment_boundary
+        rule_type: clarify
+        trigger_condition: 用户说会调整，但没有说明调整边界或触发条件。
+        strategy_direction: 只追问用户准备先调整的一个部分。
+        sample_question: 你准备先调整方案里的哪一部分？
+        question_generation_mode: strategy_guided
+        question_ai_weight: 40
+        question_generation_constraints_json:
+          must_focus_dimensions:
+            - dynamic_adjustment
+            - integrative_decision
+          forbidden:
+            - 要求用户写完整项目计划
+        fallback_question: 你会先改哪一步？
+        priority: 20
+        max_use_count: 1
+        dimensions:
+          - dimension_key: dynamic_adjustment
+            weight: 0.8
+          - dimension_key: integrative_decision
+            weight: 0.5
+
+  - stage_code: s6_integrated_plan
+    stage_order: 6
+    title: 定下最终方案
+    stage_goal: 观察用户能否整合前序信息，形成可执行、可解释、可追踪的最终决策方案。
+    context: 测评进入最后阶段。请综合前面已经确认的信息，给出最终上线建议。
+    main_question: 综合目前所有信息，你最终会如何安排此次上线呢？
+    context_generation_mode: config_guided
+    context_ai_weight: 30
+    context_generation_constraints_json:
+      must_keep_facts:
+        - 需要最终建议
+        - 需要包含上线策略、风险控制、沟通安排、监控指标和备选方案
+      forbidden:
+        - 替用户写完全部方案
+    max_followups: 2
+    estimated_minutes: 4
+    exit_criteria_json:
+      min_user_turns: 1
+      completion_mode: bounded_followup
+      expected_evidence:
+        - 最终方案
+        - 执行步骤
+        - 风险兜底
+      evidence_guidance:
+        最终方案:
+          meaning: 给出清晰的最终上线建议及范围。
+          covered_examples:
+            - 先灰度核心功能，验证稳定后再扩大。
+        执行步骤:
+          meaning: 说明至少一个先后动作、责任安排或沟通动作。
+          covered_examples:
+            - 先由研发验证核心链路，再由运营准备用户通知。
+        风险兜底:
+          meaning: 说明失败时暂停、回滚、缩小范围或其他应急安排。
+          covered_examples:
+            - 同步失败继续升高就停止灰度并回滚版本。
+    dimensions:
+      - dimension_key: integrative_decision
+        observe_role: primary
+        weight: 1.0
+      - dimension_key: dynamic_adjustment
+        observe_role: secondary
+        weight: 0.5
+    dynamic_infos:
+      - info_code: limited_engineering_capacity
+        title: 工程资源约束
+        content: 接下来 48 小时内，研发团队只能保证 2 人值守，无法同时处理大规模新需求和紧急修复。
+        info_type: stakeholder_feedback
+        trigger_condition: 用户最终方案缺少资源约束或责任分工时释放。
+        priority: 30
+        dimensions:
+          - dimension_key: integrative_decision
+            weight: 0.8
+          - dimension_key: multiple_perspectives
+            weight: 0.4
+    intervention_rules:
+      - rule_code: complete_action_plan
+        rule_type: clarify
+        trigger_condition: 用户最终方案缺少执行步骤、责任分工或风险兜底。
+        strategy_direction: 根据当前最缺的证据，在第一步、责任人或回退条件中只追问一个点。
+        sample_question: 如果明天开始执行，你安排的第一步是什么？
+        question_generation_mode: strategy_guided
+        question_ai_weight: 40
+        question_generation_constraints_json:
+          must_focus_dimensions:
+            - integrative_decision
+          forbidden:
+            - 替用户指定唯一方案
+        fallback_question: 这个方案落地时，第一步做什么？
+        priority: 10
+        max_use_count: 1
+        dimensions:
+          - dimension_key: integrative_decision
+            weight: 1.0
+      - rule_code: advance_final_summary
+        rule_type: advance
+        trigger_condition: 用户已经给出完整最终方案，可以结束测评并生成报告。
+        strategy_direction: 简短确认用户方案并推进到报告生成阶段。
+        sample_question: 好的，你的最终方案已经记录下来。接下来生成测评报告。
+        question_generation_mode: fixed_question
+        question_ai_weight: 0
+        question_generation_constraints_json:
+          must_focus_dimensions:
+            - integrative_decision
+            - dynamic_adjustment
+          forbidden:
+            - 追加新的评分提示
+        fallback_question: 好的，你的最终方案已经记录下来。接下来生成测评报告。
+        exit_prompt: 好的，你的最终方案已经记录下来。接下来生成测评报告。
+        priority: 100
+        max_use_count: 1
+        dimensions:
+          - dimension_key: integrative_decision
+            weight: 0.8
+          - dimension_key: dynamic_adjustment
+            weight: 0.4

@@ -1,0 +1,685 @@
+{
+  "schema_version": "humanistic_context_manifest_v1",
+  "status": "frozen_v1",
+  "created_at": "2026-07-28",
+  "development_contexts": {
+    "repo_relative_path": "backend/tests/fixtures/humanistic_interviewer/pilot_contexts_development_v1.jsonl",
+    "sha256": "2a5deb9c08a765f080a213c1cdd34bae28d60e11936575867dfa8aac47e8ef71",
+    "count": 40
+  },
+  "locked_test_contexts": {
+    "repo_relative_path": "backend/tests/fixtures/humanistic_interviewer/pilot_contexts_locked_v1.jsonl",
+    "sha256": "307d70998b5421c3fa234986df19561dff558f1e34bf618b607902d361ef12b3",
+    "count": 8
+  },
+  "review_examples": {
+    "repo_relative_path": "backend/tests/fixtures/humanistic_interviewer/review_examples_v1.jsonl",
+    "sha256": "097899e60f77a130c666d78f452266ad2a20cb8efc0dfe183789eb83579233e5",
+    "count": 42
+  },
+  "freeze_artifacts": [
+    {
+      "artifact_id": "humanistic_style_policy_v1",
+      "repo_relative_path": "docs/humanistic_interviewer/humanistic_style_policy_v1.yaml",
+      "sha256": "8a86a380a02f3923bce2b26abd8e378e24798df6456281196726871576feb504"
+    },
+    {
+      "artifact_id": "humanistic_source_notes_v1",
+      "repo_relative_path": "docs/humanistic_interviewer/humanistic_source_notes_v1.md",
+      "sha256": "d8818afe5a4b0ee1041f186411111697043df076ea07964efa811ec485a857ba"
+    },
+    {
+      "artifact_id": "prompt_seed_registry",
+      "repo_relative_path": "backend/seeds/prompts.yaml",
+      "sha256": "c9e52ebabfeb74332a6b180347706c6b8bfdfab55cbaec4d27a2a30ba9a55f22"
+    },
+    {
+      "artifact_id": "interviewer_agent",
+      "repo_relative_path": "backend/app/agents/interviewer_agent.py",
+      "sha256": "4af8e4a7625f6e11d0499b6e8ce495deae35ecdfdffb8244be8bbeb9eff67ac5"
+    },
+    {
+      "artifact_id": "interviewer_output_contract_v1",
+      "repo_relative_path": "backend/app/agents/interviewer_output_contract.py",
+      "sha256": "70f08692b9efb4b68c9cc00e72e1bd780395a7548f05e10cf55e802af19076d4"
+    },
+    {
+      "artifact_id": "interview_question_validator",
+      "repo_relative_path": "backend/app/agents/interview_question_validator.py",
+      "sha256": "3cb06410b652254318e5e2cce94a2db56e76a58a2e48691216e6b87d4f7943dc"
+    },
+    {
+      "artifact_id": "humanistic_evaluation_context_adapter",
+      "repo_relative_path": "backend/app/agents/humanistic_evaluation_context.py",
+      "sha256": "1cc9d9d9f5edb080ab097ef7059a2c51d134468f1fb5ae718f7ade09e0ed7287"
+    },
+    {
+      "artifact_id": "humanistic_release_evaluator",
+      "repo_relative_path": "backend/scripts/evaluate_humanistic_interviewer_v1.py",
+      "sha256": "3abaf6b5db1638d4f669c348e0dc8706b4ac0d4d08006a32c518413f70baa87b"
+    },
+    {
+      "artifact_id": "humanistic_candidate_generator_v1",
+      "repo_relative_path": "backend/app/agents/humanistic_candidate_generation.py",
+      "sha256": "357fbf34ff1c85b8e1c4443ade88101e6a0bd5e8fa54b8c9862e8200576ff668"
+    },
+    {
+      "artifact_id": "humanistic_candidate_generator_cli_v1",
+      "repo_relative_path": "backend/scripts/generate_humanistic_blind_candidates_v1.py",
+      "sha256": "2580fdebec7a0999f1cfabe467a8f9267f315da3e68a1bad85cc6178011b1d65"
+    },
+    {
+      "artifact_id": "humanistic_candidate_base_smoke_v1",
+      "repo_relative_path": "backend/scripts/smoke_humanistic_candidate_arms_v1.py",
+      "sha256": "1c3e475f537fa29508dc7735739768f6f7a171c01205a306b174b84bfc17cabb"
+    },
+    {
+      "artifact_id": "humanistic_candidate_event_smoke_v1",
+      "repo_relative_path": "backend/scripts/smoke_humanistic_event_candidate_arms_v1.py",
+      "sha256": "dbe915143d956358b00dfe9eabffdb4dcae3193aaa23c0d246b554f374a6b03e"
+    },
+    {
+      "artifact_id": "humanistic_candidate_action_matrix_smoke_v1",
+      "repo_relative_path": "backend/scripts/smoke_humanistic_action_matrix_v1.py",
+      "sha256": "4742ed0f8f4411b0fb31983421fd8dc5ea6d6125fb6937aef9d1be46e0ed03e3"
+    },
+    {
+      "artifact_id": "model_gateway_service",
+      "repo_relative_path": "backend/app/services/model_gateway_service.py",
+      "sha256": "67e4314a0dda880862207e56ae273649712b515774619ea2954398a1700446f9"
+    },
+    {
+      "artifact_id": "generation_runtime_config",
+      "repo_relative_path": "backend/app/core/config.py",
+      "sha256": "744f308219a07434e532615f993f1df20c47a42c232445268c3a8aeef20ca9a4"
+    }
+  ],
+  "retired_locked_context_ids": [
+    "HIV1-O04",
+    "HIV1-P11",
+    "HIV1-P12",
+    "HIV1-E11",
+    "HIV1-E12",
+    "HIV1-C06",
+    "HIV1-R06",
+    "HIV1-I08"
+  ],
+  "new_locked_context_ids": [
+    "HIV1-O05",
+    "HIV1-P13",
+    "HIV1-P14",
+    "HIV1-E13",
+    "HIV1-E14",
+    "HIV1-C07",
+    "HIV1-R07",
+    "HIV1-I09"
+  ],
+  "isolation_rules": [
+    "ISO-A",
+    "ISO-B",
+    "ISO-C",
+    "ISO-D",
+    "ISO-E",
+    "ISO-F",
+    "ISO-G",
+    "ISO-H"
+  ],
+  "candidate_generator_status": "pending_before_generation",
+  "freeze_record": {
+    "frozen_at": "2026-07-28",
+    "approved_by_role": "member_a_psy",
+    "approved_gate_ids": [
+      "FREEZE-A",
+      "FREEZE-B",
+      "FREEZE-C",
+      "FREEZE-D",
+      "FREEZE-E",
+      "FREEZE-F",
+      "FREEZE-G",
+      "FREEZE-H"
+    ],
+    "approved_rejection_test_ids": [
+      "RJ-01",
+      "RJ-02",
+      "RJ-03",
+      "RJ-04",
+      "RJ-05",
+      "RJ-06",
+      "RJ-07",
+      "RJ-08",
+      "RJ-09",
+      "RJ-10",
+      "RJ-11",
+      "RJ-12"
+    ],
+    "candidate_generation_started": false
+  },
+  "generation_contract_amendment": {
+    "amendment_id": "generation_contract_amendment_v1",
+    "amended_at": "2026-07-28",
+    "approved_by_role": "member_a_psy",
+    "previous_manifest_sha256": "58f05adbff250ec7688f5309d23460099f26ede614092994730b1261da07f951",
+    "approved_change_ids": [
+      "SCHEMA-A",
+      "SCHEMA-B",
+      "SCHEMA-C",
+      "STRICT-A",
+      "STRICT-B",
+      "EVID-A",
+      "META-A",
+      "FLAGS-A",
+      "FAIR-A",
+      "LIVE-A",
+      "ISO-A"
+    ],
+    "approved_amendment_gate_ids": [
+      "AMEND-A",
+      "AMEND-B",
+      "AMEND-C",
+      "AMEND-D",
+      "AMEND-E",
+      "AMEND-F",
+      "AMEND-G",
+      "AMEND-H"
+    ],
+    "approved_rejection_test_ids": [
+      "AM-RJ-01",
+      "AM-RJ-02",
+      "AM-RJ-03",
+      "AM-RJ-04",
+      "AM-RJ-05",
+      "AM-RJ-06",
+      "AM-RJ-07",
+      "AM-RJ-08",
+      "AM-RJ-09",
+      "AM-RJ-10"
+    ],
+    "contexts_unchanged": true,
+    "development_contexts_sha256": "2a5deb9c08a765f080a213c1cdd34bae28d60e11936575867dfa8aac47e8ef71",
+    "locked_test_contexts_sha256": "307d70998b5421c3fa234986df19561dff558f1e34bf618b607902d361ef12b3",
+    "review_examples_sha256": "097899e60f77a130c666d78f452266ad2a20cb8efc0dfe183789eb83579233e5",
+    "review_examples_handling": "carried_forward_without_file_read",
+    "artifact_changes": [
+      {
+        "artifact_id": "prompt_seed_registry",
+        "action": "updated",
+        "previous_sha256": "39fd0a9ab1958e17ebb678b2de6ae70e9c857b7b0762692b383e207e47d1e60a",
+        "current_sha256": "c9e52ebabfeb74332a6b180347706c6b8bfdfab55cbaec4d27a2a30ba9a55f22"
+      },
+      {
+        "artifact_id": "interviewer_agent",
+        "action": "updated",
+        "previous_sha256": "56080c8a51fbb75017613a6cab6d84ea4e2be64f0552ac5768d78727913c5e59",
+        "current_sha256": "334a932b4214726720a845b2706ee1a363a0e43a895426ff024a85e74c6cbc58"
+      },
+      {
+        "artifact_id": "interviewer_output_contract_v1",
+        "action": "added",
+        "previous_sha256": null,
+        "current_sha256": "70f08692b9efb4b68c9cc00e72e1bd780395a7548f05e10cf55e802af19076d4"
+      },
+      {
+        "artifact_id": "humanistic_evaluation_context_adapter",
+        "action": "updated",
+        "previous_sha256": "c99bf1fc5aed077d80e00876ed749a9766f2953c5970b5029d09294bd84793d7",
+        "current_sha256": "34db073f6394347e544cd81d90304adb840bb992702e488a8a4ecc14820f5faa"
+      }
+    ],
+    "output_contract_version": "interviewer_output_contract_v1",
+    "output_contract_sha256": "e36fb00ff1a1293bd4693262479ef6ed6ec1196dcebe4445b315350a064351f6",
+    "smoke_preflight_sha256": "eeb7fa1133c1f698637ebe501000ea2ee8e765d44472338c7fed8e102b09a999",
+    "smoke_audit_sha256": "d79aef928a25817c271b9dab5859a56ea65fa790fd80e27b44b53d902e69f8bb",
+    "smoke_status": "pass",
+    "candidate_generation_started": false
+  },
+  "generation_reliability_amendment": {
+    "amendment_id": "generation_reliability_amendment_v1",
+    "amended_at": "2026-07-29",
+    "approved_by_role": "member_a_psy",
+    "authorization_scope": "explicit_informed_generation_reliability_amendment",
+    "previous_manifest_sha256": "453e9a47abdedff11e4d6a778f25fc0345727be898265a1fa8c9a2ae2a78fb9d",
+    "previous_preflight_sha256": "c79b52ae92dd301b6e6afea4b49ea5ac76e9d63e6ac336d2a4feca45bc4b3a45",
+    "triggering_run_id": "run_6fc581a22201eaddc8bed593f1e0ca68",
+    "triggering_manifest_sha256": "61c8c145b9178f649b7d2d8b7e0589730c34723da1cfa43fb2015209b6a08735",
+    "triggering_provenance_sha256": "b573a4d18567a4fd0a7b61190375013145a1ec734da8fcd20328090e6944fc92",
+    "triggering_failures_sha256": "5656947b6681d0f96b89d96ca9b47e57407a757ff5090048f0b7b66af3390f7d",
+    "stop_reason": "paired_rounds_exhausted",
+    "stop_context_id": "HIV1-E04",
+    "attempted_context_count": 1,
+    "remote_call_count": 6,
+    "candidate_count": 0,
+    "model_call_exception_count": 4,
+    "validator_rejected_count": 2,
+    "contexts_unchanged": true,
+    "review_examples_handling": "carried_forward_without_file_read",
+    "style_policy_unchanged": true,
+    "validator_unchanged": true,
+    "scoring_unchanged": true,
+    "output_contract_unchanged": true,
+    "previous_candidate_timeout_seconds": 3,
+    "candidate_timeout_seconds": 15,
+    "shared_event_structure_constraint": true,
+    "applies_identically_to_arms": [
+      "baseline",
+      "humanistic"
+    ],
+    "artifact_changes": [
+      {
+        "artifact_id": "interviewer_agent",
+        "action": "updated",
+        "previous_sha256": "334a932b4214726720a845b2706ee1a363a0e43a895426ff024a85e74c6cbc58",
+        "current_sha256": "7154ae85682cf287485beb330fbe2b316a5066589e8d328413ee147a5e5273f9"
+      },
+      {
+        "artifact_id": "humanistic_evaluation_context_adapter",
+        "action": "updated",
+        "previous_sha256": "34db073f6394347e544cd81d90304adb840bb992702e488a8a4ecc14820f5faa",
+        "current_sha256": "a00ff8fc5d0d755dcfce85f56fbce0b72fe0ffde6b77887077d0c04dc3e292b5"
+      },
+      {
+        "artifact_id": "humanistic_candidate_generator_v1",
+        "action": "updated",
+        "previous_sha256": "47036688f6dd21e637ab7bd2e161242fc6cd591393b04b4996322408da0db164",
+        "current_sha256": "10dce2a4043c1f2aa630b301358bc364c2a0ad0d08108e1b7651c276cbb9dbe8"
+      },
+      {
+        "artifact_id": "humanistic_candidate_generator_cli_v1",
+        "action": "added",
+        "previous_sha256": null,
+        "current_sha256": "2580fdebec7a0999f1cfabe467a8f9267f315da3e68a1bad85cc6178011b1d65"
+      },
+      {
+        "artifact_id": "humanistic_candidate_base_smoke_v1",
+        "action": "added",
+        "previous_sha256": null,
+        "current_sha256": "6531a195c5af88fcdc112289c9e55a23a56dfa48786bdb14cfd2afbda51253cc"
+      },
+      {
+        "artifact_id": "humanistic_candidate_event_smoke_v1",
+        "action": "added",
+        "previous_sha256": null,
+        "current_sha256": "dbe915143d956358b00dfe9eabffdb4dcae3193aaa23c0d246b554f374a6b03e"
+      },
+      {
+        "artifact_id": "model_gateway_service",
+        "action": "added",
+        "previous_sha256": null,
+        "current_sha256": "67e4314a0dda880862207e56ae273649712b515774619ea2954398a1700446f9"
+      },
+      {
+        "artifact_id": "generation_runtime_config",
+        "action": "updated",
+        "previous_sha256": "6d84d1775f7f40b2725e972f96a593a66e4b10d3675837722deb42dfd00d223c",
+        "current_sha256": "744f308219a07434e532615f993f1df20c47a42c232445268c3a8aeef20ca9a4"
+      }
+    ],
+    "event_smoke_context_id": "HIV1-S98",
+    "event_smoke_preflight_sha256": "b95f05ff40e0f6a0d4ba6e9069f1adcfa6379fbaa09673eebfb11c8896ef2199",
+    "event_smoke_audit_sha256": "62700c37ebad5e4fe49a651a7909375b470fd68e4e7ccbdee330ba2503bdec16",
+    "event_smoke_status": "pass",
+    "generation_restart_authorized": true,
+    "formal_candidate_generation_started_after_amendment": false
+  },
+  "generation_reliability_amendment_v2": {
+    "amendment_id": "generation_reliability_amendment_v2",
+    "amended_at": "2026-07-29",
+    "approved_by_role": "member_a_psy",
+    "authorization_scope": "explicit_informed_generation_reliability_amendment_v2",
+    "previous_manifest_sha256": "78eb62393fe2879f36bdcd5a9954c6d6fbe48ba90138fa00faba956ae2de3927",
+    "previous_preflight_sha256": "89dcf2a87d7ab79de99bb391addaea1ac27a3d087472cf95f31956f0aeef2501",
+    "triggering_run_id": "run_da8660481bfb07df6795c9a93b8252b7",
+    "triggering_manifest_sha256": "6fbd3c95e5d075787c430e0d6e649214ac620d57bab08ca5d2c3848b39ca900a",
+    "triggering_provenance_sha256": "3c4ed26156320cb2865c8accd16695a8f073afc0e7b04a75ffdd2ee01bc78671",
+    "triggering_failures_sha256": "83f3010de4226580aadd94db3e336183cc986a1e308b3962e172a648b149e1af",
+    "stop_reason": "paired_rounds_exhausted",
+    "stop_context_id": "HIV1-I04",
+    "attempted_context_count": 1,
+    "remote_call_count": 6,
+    "candidate_count": 0,
+    "validator_rejected_count": 6,
+    "sole_validation_code": "question_count",
+    "contexts_unchanged": true,
+    "review_examples_handling": "carried_forward_without_file_read",
+    "style_policy_unchanged": true,
+    "validator_unchanged": true,
+    "scoring_unchanged": true,
+    "output_contract_unchanged": true,
+    "candidate_timeout_seconds": 15,
+    "approved_plan_actions": [
+      "PROBE",
+      "CHALLENGE",
+      "RELEASE_EVENT",
+      "CLARIFY",
+      "INTEGRATE",
+      "CONCLUDE"
+    ],
+    "shared_plan_action_structure_mapping": true,
+    "retry_selection_policy": "first_valid_per_arm_across_paired_rounds",
+    "paired_arm_calls_remain_symmetric": true,
+    "max_paired_rounds": 3,
+    "model_repair_enabled": false,
+    "model_failure_substitutes_fallback": false,
+    "artifact_changes": [
+      {
+        "artifact_id": "interviewer_agent",
+        "action": "updated",
+        "previous_sha256": "7154ae85682cf287485beb330fbe2b316a5066589e8d328413ee147a5e5273f9",
+        "current_sha256": "3767d559c3c824d24d544ff7da7d18a7e18a6a0121ddd2f2e6108d8bf4ea6253"
+      },
+      {
+        "artifact_id": "humanistic_evaluation_context_adapter",
+        "action": "updated",
+        "previous_sha256": "a00ff8fc5d0d755dcfce85f56fbce0b72fe0ffde6b77887077d0c04dc3e292b5",
+        "current_sha256": "d2ed8fbf2df2acd32ee20b2aa85d6f1b7d686db36219243d4d1048a75306dd25"
+      },
+      {
+        "artifact_id": "humanistic_candidate_generator_v1",
+        "action": "updated",
+        "previous_sha256": "10dce2a4043c1f2aa630b301358bc364c2a0ad0d08108e1b7651c276cbb9dbe8",
+        "current_sha256": "91ded88c547ac981ab172f65744c27a568bf814c415fca6cc6c4615cda16dba7"
+      },
+      {
+        "artifact_id": "humanistic_candidate_action_matrix_smoke_v1",
+        "action": "added",
+        "previous_sha256": null,
+        "current_sha256": "4742ed0f8f4411b0fb31983421fd8dc5ea6d6125fb6937aef9d1be46e0ed03e3"
+      }
+    ],
+    "action_matrix_context_count": 6,
+    "action_matrix_remote_call_count": 12,
+    "action_matrix_preflight_sha256": "1ae2a9f9f1bd53514af44cfb1a796f8d7aab26c022825994549c6554deb0771a",
+    "action_matrix_audit_sha256": "998025208332d896b6eee760a2866862e06606c662c18a784f1cd390c66bef53",
+    "action_matrix_status": "pass",
+    "generation_restart_authorized": true,
+    "formal_candidate_generation_started_after_amendment": false
+  },
+  "generation_reliability_amendment_v3": {
+    "amendment_id": "generation_reliability_amendment_v3",
+    "status": "frozen_after_smoke",
+    "amended_at": "2026-07-29",
+    "approved_by_role": "member_a_psy",
+    "authorization_scope": "explicit_generation_reliability_amendment_v3",
+    "approved_gate_ids": [
+      "V3-A",
+      "V3-B",
+      "V3-C",
+      "V3-D",
+      "V3-E",
+      "V3-F",
+      "V3-G",
+      "V3-H",
+      "V3-I"
+    ],
+    "approved_rejection_test_ids": [
+      "V3-RJ-01",
+      "V3-RJ-02",
+      "V3-RJ-03",
+      "V3-RJ-04",
+      "V3-RJ-05",
+      "V3-RJ-06",
+      "V3-RJ-07",
+      "V3-RJ-08",
+      "V3-RJ-09",
+      "V3-RJ-10",
+      "V3-RJ-11",
+      "V3-RJ-12"
+    ],
+    "previous_manifest_sha256": "707aa76469c65b509fbd62266ac3df0a70c89f98ce5befc35832cb463923fd60",
+    "previous_preflight_sha256": "6ee1c04f378f9f4dbc05bdaab7f4a2c756fedc1b87256158d0fd5f84b2ed4cf5",
+    "triggering_run_id": "run_ff45cbfc3d9e82b2d054db5cdceb2238",
+    "triggering_manifest_sha256": "c173adcd2088cc551e0973ce41d9f30fa8152b68951cc33694adcb19d49e864f",
+    "triggering_provenance_sha256": "69084738cf3ce5c7ff6cfe294ca6f7c724ef1c79d3be35d0f5f0248c30f9dc4c",
+    "triggering_failures_sha256": "8265af045e29245d28a44c29959be5ce93142f7531c5d502573c21172d58d7b4",
+    "triggering_stop_context_id": "HIV1-I04",
+    "triggering_attempted_context_count": 32,
+    "triggering_candidate_count": 0,
+    "corrective_interviewer_sha256": "0357feccbf5b0a7b78bd833c6479751a53917d2e055925f2ff76990e6a10febc",
+    "corrective_action_matrix_preflight_sha256": "6024653741c5f0ee7616d44b026b2aba9020e6099ada3e8a6685e6d7f32181ad",
+    "corrective_action_matrix_audit_sha256": "34cf250d9fc1da19de338deec39e7cf35e27c167f126119e2066f19f252334f2",
+    "corrective_stop_context_id": "HIV1-S91",
+    "corrective_remote_call_count": 2,
+    "corrective_baseline_validation_code": "internal_terms",
+    "contexts_unchanged": true,
+    "review_examples_handling": "carried_forward_without_file_read",
+    "style_policy_unchanged": true,
+    "validator_unchanged": true,
+    "scoring_unchanged": true,
+    "output_contract_unchanged": true,
+    "prompt_registry_unchanged": true,
+    "candidate_generation_mode": "frozen_candidate_v1",
+    "internal_terms_source": "InterviewQuestionValidator.INTERNAL_TERMS",
+    "shared_constraint_identical_for_model_arms": true,
+    "quality_flags_non_authoritative": true,
+    "quality_flag_mismatches_audit_only": true,
+    "online_prompt_path_unchanged": true,
+    "retry_selection_policy": "first_valid_per_arm_across_paired_rounds",
+    "paired_arm_calls_remain_symmetric": true,
+    "max_paired_rounds": 3,
+    "model_repair_enabled": false,
+    "model_failure_substitutes_fallback": false,
+    "artifact_changes": [
+      {
+        "artifact_id": "interviewer_agent",
+        "action": "updated",
+        "previous_sha256": "3767d559c3c824d24d544ff7da7d18a7e18a6a0121ddd2f2e6108d8bf4ea6253",
+        "current_sha256": "fac875c70348a9d2f7a5280c7d12bc031d62693f61d0d9abf4d1a3ec480e6127"
+      },
+      {
+        "artifact_id": "humanistic_evaluation_context_adapter",
+        "action": "updated",
+        "previous_sha256": "d2ed8fbf2df2acd32ee20b2aa85d6f1b7d686db36219243d4d1048a75306dd25",
+        "current_sha256": "0c5f5be12aa5a7dba1217d69d07dadef22753bdcca4e0d3a633d6676f367a55c"
+      },
+      {
+        "artifact_id": "humanistic_candidate_generator_v1",
+        "action": "updated",
+        "previous_sha256": "91ded88c547ac981ab172f65744c27a568bf814c415fca6cc6c4615cda16dba7",
+        "current_sha256": "fbcfc01e806948cabe1a77b3c20e9bfe8f1ff5cfcb0f268f9a42b8fc8dcbe133"
+      },
+      {
+        "artifact_id": "humanistic_candidate_base_smoke_v1",
+        "action": "updated",
+        "previous_sha256": "6531a195c5af88fcdc112289c9e55a23a56dfa48786bdb14cfd2afbda51253cc",
+        "current_sha256": "1c3e475f537fa29508dc7735739768f6f7a171c01205a306b174b84bfc17cabb"
+      }
+    ],
+    "action_matrix_context_count": 6,
+    "action_matrix_max_remote_call_count": 12,
+    "action_matrix_remote_call_count": 12,
+    "action_matrix_preflight_sha256": "20b6561f6770522172ca2637f9568da882ec500a951627941103fb1ac777c645",
+    "action_matrix_audit_sha256": "230b6fab54d56527d4e43f154cb72f3346b30bd3dfaefe7abced4526466ec665",
+    "action_matrix_status": "pass",
+    "generation_restart_authorized": true,
+    "formal_candidate_generation_started_after_amendment": false
+  },
+  "generation_reliability_amendment_v4": {
+    "amendment_id": "generation_reliability_amendment_v4",
+    "status": "frozen_after_smoke",
+    "amended_at": "2026-07-29",
+    "approved_by_role": "member_a_psy",
+    "authorization_scope": "explicit_generation_reliability_amendment_v4",
+    "approved_gate_ids": [
+      "V4-A",
+      "V4-B",
+      "V4-C",
+      "V4-D",
+      "V4-E",
+      "V4-F",
+      "V4-G",
+      "V4-H"
+    ],
+    "approved_rejection_test_ids": [
+      "V4-RJ-01",
+      "V4-RJ-02",
+      "V4-RJ-03",
+      "V4-RJ-04",
+      "V4-RJ-05",
+      "V4-RJ-06",
+      "V4-RJ-07",
+      "V4-RJ-08",
+      "V4-RJ-09",
+      "V4-RJ-10",
+      "V4-RJ-11",
+      "V4-RJ-12"
+    ],
+    "previous_manifest_sha256": "269e4e94e1a2305b3730df9964bf9aeb2b23f45554172e8df0c97e843d66cecb",
+    "previous_preflight_sha256": "7c64a2995564f10ae32204a09756bf62094671a64ae6dc93562453c349723079",
+    "triggering_run_id": "run_4b4be488a9479c338f80cfd7cb68e6c1",
+    "triggering_manifest_sha256": "9e8eb18a732f8fe24607c88b6f29ad3c7813ae291852f24ae8905bdb166400f1",
+    "triggering_provenance_sha256": "828aa8a3ecc00bc9bb44eb4cf50e926946b38fb260719f6430b4b83088129d6e",
+    "triggering_failures_sha256": "33700030ce6861dbe76c6e76f81e8618181b56d88ecb34ecc2ae93b459e71b88",
+    "triggering_stop_context_id": "HIV1-E03",
+    "triggering_attempted_context_count": 4,
+    "triggering_remote_model_call_count": 14,
+    "triggering_candidate_count": 0,
+    "triggering_too_many_sentences_count": 3,
+    "triggering_collision_count": 1,
+    "contexts_unchanged": true,
+    "review_examples_handling": "carried_forward_without_file_read",
+    "style_policy_unchanged": true,
+    "validator_unchanged": true,
+    "scoring_unchanged": true,
+    "output_contract_unchanged": true,
+    "prompt_registry_unchanged": true,
+    "online_prompt_path_unchanged": true,
+    "candidate_generation_mode": "frozen_candidate_v1",
+    "applies_only_to_release_event_candidate_and_smoke": true,
+    "shared_constraint_identical_for_model_arms": true,
+    "reflection_separator": "semicolon_or_colon_or_comma",
+    "verified_quotes_excluded_from_terminal_count": true,
+    "assistant_authored_question_mark_count": 1,
+    "assistant_authored_other_terminal_max": 1,
+    "exact_event_unit_text_required": true,
+    "model_output_normalization_enabled": false,
+    "collision_policy_unchanged": true,
+    "retry_selection_policy": "first_valid_per_arm_across_paired_rounds",
+    "paired_arm_calls_remain_symmetric": true,
+    "max_paired_rounds": 3,
+    "model_repair_enabled": false,
+    "model_failure_substitutes_fallback": false,
+    "artifact_changes": [
+      {
+        "artifact_id": "interviewer_agent",
+        "action": "updated",
+        "previous_sha256": "fac875c70348a9d2f7a5280c7d12bc031d62693f61d0d9abf4d1a3ec480e6127",
+        "current_sha256": "4af8e4a7625f6e11d0499b6e8ce495deae35ecdfdffb8244be8bbeb9eff67ac5"
+      },
+      {
+        "artifact_id": "humanistic_evaluation_context_adapter",
+        "action": "updated",
+        "previous_sha256": "0c5f5be12aa5a7dba1217d69d07dadef22753bdcca4e0d3a633d6676f367a55c",
+        "current_sha256": "9652607a5ac7870c767dd763573764e31024d0f9747f94417bbb1973f58adc71"
+      }
+    ],
+    "action_matrix_context_count": 6,
+    "action_matrix_max_remote_call_count": 12,
+    "action_matrix_remote_call_count": 12,
+    "action_matrix_preflight_sha256": "a85aa7424a3663b0042d13f3d3ce1ade82819165e47d352268f405e517280cf0",
+    "action_matrix_audit_sha256": "9eebe19e5fdd8708029c2cdad48f38062327a7596510d0316aac024d86bf3461",
+    "action_matrix_status": "pass",
+    "event_smoke_context_id": "HIV1-S98",
+    "event_smoke_repetitions": 3,
+    "event_smoke_max_remote_call_count": 6,
+    "event_smoke_remote_call_count": 6,
+    "event_smoke_preflight_sha256": "14529a5975c656e8243acae49c1817f7f371c95d528018f798a399c5e587ada4",
+    "event_smoke_audit_sha256": [
+      "941ec52a96c5b12f34253c9bdb8b7de1081b1c6e359cb81c6000aad2a5c93e9c",
+      "ac1276b2cd0fb918c9f517681c4f3860777cdadef89268ba35aa4802578c71d2",
+      "5934685abb075dfc44aeef978340b8fad4e11d6fc1c3f1b469f7a5245494f2c6"
+    ],
+    "event_smoke_status": "pass",
+    "generation_restart_authorized": true,
+    "formal_candidate_generation_started_after_amendment": false
+  },
+  "generation_reliability_amendment_v5": {
+    "amendment_id": "generation_reliability_amendment_v5",
+    "status": "frozen_after_zero_call_gate",
+    "amended_at": "2026-07-29",
+    "approved_by_role": "member_a_psy",
+    "authorization_scope": "explicit_generation_reliability_amendment_v5",
+    "approved_gate_ids": [
+      "V5-A",
+      "V5-B",
+      "V5-C",
+      "V5-D",
+      "V5-E",
+      "V5-F",
+      "V5-G",
+      "V5-H"
+    ],
+    "approved_rejection_test_ids": [
+      "V5-RJ-01",
+      "V5-RJ-02",
+      "V5-RJ-03",
+      "V5-RJ-04",
+      "V5-RJ-05",
+      "V5-RJ-06",
+      "V5-RJ-07",
+      "V5-RJ-08",
+      "V5-RJ-09",
+      "V5-RJ-10",
+      "V5-RJ-11",
+      "V5-RJ-12"
+    ],
+    "previous_manifest_sha256": "30335ecc61687d97854605d719bcae7f84db5b10172add81f1ffe11ff1fbcd68",
+    "previous_preflight_sha256": "8ae77ce691b4e935ef6392023c320effc87af8b469ca765bfb81e0d1a8f2976d",
+    "triggering_run_id": "run_ac943a9038dd6887628d2c9c77c6a3ee",
+    "triggering_manifest_sha256": "7a3c69c5aeb5da8648099efb41ccc1c180b46ee20e05c0039518665760c182e4",
+    "triggering_provenance_sha256": "ee585ec9193b8ecfb8e2cd40cc419691c7c18617be401890e2114b2ab1931e75",
+    "triggering_case_key_sha256": "aedba75b3a6b137c0708f63131b8df003c7bf023403603cfa9f6564976ebf67f",
+    "triggering_failures_sha256": "d638ff51287bed0012ad4ce59595e5ef1d390f153a49290e95a0a5bb7a8d85ab",
+    "triggering_stop_context_id": "HIV1-E09",
+    "triggering_attempted_context_count": 8,
+    "triggering_remote_model_call_count": 20,
+    "triggering_candidate_count": 0,
+    "triggering_collision_count": 3,
+    "contexts_unchanged": true,
+    "review_examples_handling": "carried_forward_without_file_read",
+    "prompt_registry_unchanged": true,
+    "style_policy_unchanged": true,
+    "interviewer_agent_unchanged": true,
+    "validator_unchanged": true,
+    "output_contract_unchanged": true,
+    "model_configuration_unchanged": true,
+    "rating_fields_and_thresholds_unchanged": true,
+    "exact_tie_type": "model_pair_exact",
+    "exact_visible_message_required": true,
+    "both_model_candidates_must_be_valid": true,
+    "fallback_must_remain_normalized_distinct": true,
+    "normalized_only_collision_remains_rejected": true,
+    "fallback_or_three_way_collision_remains_rejected": true,
+    "fallback_rendered_once_per_context": true,
+    "collision_audit_scope": "pair_level_not_arm_attributed",
+    "opaque_candidate_ids_preserved": true,
+    "logical_candidate_count": 144,
+    "exact_tie_ratings_must_match": true,
+    "exact_tie_humanistic_preference_weight": 0.5,
+    "artifact_changes": [
+      {
+        "artifact_id": "humanistic_candidate_generator_v1",
+        "action": "updated",
+        "previous_sha256": "fbcfc01e806948cabe1a77b3c20e9bfe8f1ff5cfcb0f268f9a42b8fc8dcbe133",
+        "current_sha256": "357fbf34ff1c85b8e1c4443ade88101e6a0bd5e8fa54b8c9862e8200576ff668"
+      },
+      {
+        "artifact_id": "humanistic_release_evaluator",
+        "action": "updated",
+        "previous_sha256": "4ac7709e7f84501f7938c1a5ce6785b1c141c6cce7e92aeb6dfa1a6db1e76af3",
+        "current_sha256": "3abaf6b5db1638d4f669c348e0dc8706b4ac0d4d08006a32c518413f70baa87b"
+      },
+      {
+        "artifact_id": "humanistic_evaluation_context_adapter",
+        "action": "updated",
+        "previous_sha256": "9652607a5ac7870c767dd763573764e31024d0f9747f94417bbb1973f58adc71",
+        "current_sha256": "1cc9d9d9f5edb080ab097ef7059a2c51d134468f1fb5ae718f7ade09e0ed7287"
+      }
+    ],
+    "zero_call_remote_model_call_count": 0,
+    "zero_call_regression_status": "pass",
+    "formal_preflight_status": "ready",
+    "generation_restart_authorized": true,
+    "formal_candidate_generation_started_after_amendment": false,
+    "final_generation_run_limit": 1,
+    "automatic_v6_allowed": false
+  }
+}
